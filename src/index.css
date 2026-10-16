@@ -2,52 +2,338 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Custom Leaflet Map styling */
-.leaflet-container {
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1A2430;
+    background-color: #F9F9F8;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, .font-editorial {
+    font-family: 'Fraunces', Georgia, serif;
+    letter-spacing: -0.015em;
+  }
+
+  /* Force tabular numerals for measurements and data-dense stats */
+  .tabular-nums,
+  [data-tabular="true"] {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* Restrained industrial scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F8FAFC;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #CBD5E1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94A3B8;
+}
+
+/* Clean 1px border card styling */
+.enterprise-card {
+  background-color: #FFFFFF;
+  border: 1px solid #E2E8F0;
+  border-radius: 8px;
+}
+
+.enterprise-card-header {
+  border-bottom: 1px solid #E2E8F0;
+  padding: 12px 16px;
+}
+
+.enterprise-table {
   width: 100%;
-  height: 100%;
-  border-radius: 0.75rem;
-  z-index: 10;
-  font-family: inherit;
+  border-collapse: collapse;
 }
 
-/* Custom hub marker badge */
-.hub-pin-icon {
-  background: transparent;
-  border: none;
-}
-
-.hub-pin-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: #D9222A;
-  color: white;
-  font-weight: 700;
-  font-size: 14px;
-  border-radius: 9999px;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3), 0 2px 4px -2px rgba(0, 0, 0, 0.2);
-  border: 2px solid white;
-  transition: transform 0.2s;
-}
-
-.hub-pin-badge:hover {
-  transform: scale(1.15);
-}
-
-.candidate-pin-badge {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  background-color: #94A3B8;
-  color: white;
+.enterprise-table th {
+  background-color: #F1F5F9;
+  color: #64748B;
+  font-size: 11px;
   font-weight: 600;
-  font-size: 10px;
-  border-radius: 9999px;
-  border: 1.5px solid white;
-  opacity: 0.7;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 8px 12px;
+  border-bottom: 1px solid #E2E8F0;
+  text-align: left;
 }
+
+.enterprise-table td {
+  padding: 10px 12px;
+  border-bottom: 1px solid #F1F5F9;
+  font-size: 13px;
+  color: #0F172A;
+}
+
+.enterprise-table tr:hover td {
+  background-color: #F8FAFC;
+}
+
+/* ==========================================================================
+   HANDCRAFTED EDITORIAL DESIGN THEME
+   - Humanist sans body ('Plus Jakarta Sans') + Editorial serif headings ('Fraunces')
+   - Subtle warm off-white background (#F9F9F8) reducing screen glare
+   - Softened organic status colors (terracotta, earthy sage, antique ochre)
+   - Multi-layered natural physical lighting drop shadows & delicate 1px borders
+   - Bespoke header pattern and hatched data visualization anomalies
+   ========================================================================== */
+
+.theme-handcrafted body,
+body.theme-handcrafted,
+html.theme-handcrafted,
+.theme-handcrafted {
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+  background-color: #F9F9F8 !important;
+  color: #1A2430;
+}
+
+/* Characterful editorial headings */
+.theme-handcrafted h1,
+.theme-handcrafted h2,
+.theme-handcrafted .font-editorial {
+  font-family: 'Fraunces', Georgia, serif !important;
+  letter-spacing: -0.015em;
+  font-weight: 600;
+}
+
+/* Multi-layered natural physical lighting drop shadows */
+.theme-handcrafted .bg-white,
+.theme-handcrafted .enterprise-card,
+.theme-handcrafted .shadow-sm,
+.theme-handcrafted .shadow-xs {
+  box-shadow: 
+    0 1px 2px rgba(30, 42, 56, 0.03), 
+    0 4px 12px rgba(30, 42, 56, 0.03), 
+    0 14px 28px rgba(30, 42, 56, 0.02) !important;
+}
+
+/* Softened warm off-white surfaces */
+.theme-handcrafted .bg-white {
+  background-color: #FCFBF9 !important;
+}
+
+.theme-handcrafted \.bg-\[\#F8FAFC\] {
+  background-color: #F4F2EC !important;
+}
+
+.theme-handcrafted \.bg-\[\#F1F5F9\] {
+  background-color: #EDE9E0 !important;
+}
+
+/* Delicate low-contrast borders */
+.theme-handcrafted \.border-\[\#E2E8F0\] {
+  border-color: #E8E4DC !important;
+}
+
+.theme-handcrafted \.border-\[\#F1F5F9\] {
+  border-color: #EFECE4 !important;
+}
+
+/* Softened organic status colors */
+/* Organic Terracotta / Tuscan Rust */
+.theme-handcrafted \.text-\[\#B54747\],
+.theme-handcrafted \.text-\[\#DC2626\],
+.theme-handcrafted \.text-\[\#991B1B\] {
+  color: #B2463F !important;
+}
+
+.theme-handcrafted \.bg-\[\#FBECEC\],
+.theme-handcrafted \.bg-\[\#FEF2F2\],
+.theme-handcrafted \.bg-\[\#FDF2F2\] {
+  background-color: #FBF2F1 !important;
+}
+
+.theme-handcrafted \.border-\[\#EDBEBE\],
+.theme-handcrafted \.border-\[\#FECACA\] {
+  border-color: #F2D2CF !important;
+}
+
+/* Earthy Deep Sage / Forest */
+.theme-handcrafted \.text-\[\#2D6A4F\],
+.theme-handcrafted \.text-\[\#16A34A\],
+.theme-handcrafted \.text-\[\#15803D\] {
+  color: #2E6F56 !important;
+}
+
+.theme-handcrafted \.bg-\[\#F0FDF4\],
+.theme-handcrafted \.bg-\[\#ECFDF5\] {
+  background-color: #F1F6F3 !important;
+}
+
+.theme-handcrafted \.border-\[\#BBF7D0\],
+.theme-handcrafted \.border-\[\#A7F3D0\] {
+  border-color: #D1E5DB !important;
+}
+
+/* Warm Antique Ochre / Amber */
+.theme-handcrafted \.text-\[\#B9822B\],
+.theme-handcrafted \.text-\[\#D97706\] {
+  color: #B27B2A !important;
+}
+
+.theme-handcrafted \.bg-\[\#FAF3E7\],
+.theme-handcrafted \.bg-\[\#FFFBEB\] {
+  background-color: #FAF4E8 !important;
+}
+
+.theme-handcrafted \.border-\[\#ECD9B7\],
+.theme-handcrafted \.border-\[\#FDE68A\] {
+  border-color: #EFE0C5 !important;
+}
+
+/* Deep Slate-Ink Blue */
+.theme-handcrafted \.bg-\[\#0F2744\] {
+  background-color: #1A2838 !important;
+}
+
+.theme-handcrafted \.bg-\[\#2563EB\] {
+  background-color: #2C5B83 !important;
+}
+
+.theme-handcrafted \.text-\[\#2563EB\] {
+  color: #2C5B83 !important;
+}
+
+.theme-handcrafted \.bg-\[\#EFF6FF\] {
+  background-color: #F0F4F8 !important;
+}
+
+.theme-handcrafted \.border-\[\#BFDBFE\] {
+  border-color: #D2E0EC !important;
+}
+
+/* Stylized topographical watermark pattern */
+.theme-handcrafted .handcrafted-topography {
+  background-image: radial-gradient(#2C5B83 0.65px, transparent 0.65px), radial-gradient(#2C5B83 0.65px, #FCFBF9 0.65px);
+  background-size: 24px 24px;
+  background-position: 0 0, 12px 12px;
+}
+
+/* Handcrafted textured diagonal hatch for anomaly bars */
+.theme-handcrafted .handcrafted-hatch {
+  background-image: repeating-linear-gradient(45deg, #B2463F, #B2463F 3px, #C85C54 3px, #C85C54 6px) !important;
+}
+
+/* ==========================================================================
+   ROLE SELECTION & LOGIN TRANSITION ANIMATIONS
+   ========================================================================== */
+@keyframes role-pop-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.9) translateY(16px);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.02) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-pop-in {
+  animation: role-pop-in 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pop-child {
+  0% {
+    opacity: 0;
+    transform: scale(0.94) translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.animate-pop-child-1 {
+  animation: pop-child 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.04s both;
+}
+
+.animate-pop-child-2 {
+  animation: pop-child 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.11s both;
+}
+
+.animate-pop-child-3 {
+  animation: pop-child 0.38s cubic-bezier(0.16, 1, 0.3, 1) 0.18s both;
+}
+
+@keyframes success-pop {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+  60% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+  80% {
+    transform: scale(0.96);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-success-pop {
+  animation: success-pop 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes ripple-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+.animate-ripple-ring {
+  animation: ripple-ring 1.3s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes fade-slide-up {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-up {
+  animation: fade-slide-up 0.4s ease-out forwards;
+}
+
+@keyframes launch-progress {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.animate-launch-progress {
+  animation: launch-progress 1.2s ease-in-out forwards;
+}
+

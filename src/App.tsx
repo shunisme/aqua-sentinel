@@ -54,7 +54,7 @@ const MainLayout: React.FC = () => {
       >
         <Header onOpenCreateInspection={() => handleOpenCreateInspection()} />
 
-        <main className="flex-1 p-6 max-w-7xl w-full mx-auto animate-fade-slide-up">
+        <main className="flex-1 p-6 w-full animate-fade-slide-up">
           {currentPage === 'overview' && (
             currentUser.role === 'resident' ? (
               <ResidentPortalPage />

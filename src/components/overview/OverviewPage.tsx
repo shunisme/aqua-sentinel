@@ -234,14 +234,12 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
     <div className="space-y-6">
       {/* 1. Header & Live Telemetry Controls */}
       <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-lg border border-[#E8E4DC] shadow-xs">
-        <div>
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <h1 className="text-xl sm:text-2xl font-editorial font-bold text-[#1A2430] tracking-tight">
             Dashboard Overview
           </h1>
-        </div>
 
-        <div className="flex flex-wrap items-center gap-2.5">
-          {/* Time Window Filter at Top */}
+          {/* Time Window Filter on the left */}
           <div className="flex items-center bg-[#F4F2EC] p-0.5 rounded-md text-xs font-medium border border-[#E8E4DC]">
             <button
               onClick={() => setDateFilter('today')}
@@ -284,7 +282,13 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
               All Time
             </button>
           </div>
+        </div>
 
+        <div className="flex items-center gap-2.5">
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#2E6F56] font-medium bg-[#F0FDF4] border border-[#BBF7D0] px-2.5 py-1 rounded-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
+            Live Sync
+          </span>
           <button
             onClick={() => onOpenCreateInspection()}
             className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-medium border border-[#1A2838] transition-colors cursor-pointer shadow-sm"

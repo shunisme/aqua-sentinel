@@ -1,23 +1,17 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
-import { NavigationPage } from '../../types';
-import { AquaSentinelLogo } from '../common/AquaSentinelLogo';
 import {
-  LayoutDashboard,
-  Building2,
-  LineChart,
-  AlertTriangle,
-  ClipboardList,
-  Wrench,
-  Settings,
-  User,
   Search,
   CheckCircle2,
   Plus,
   ChevronDown,
+  Building2,
+  Wrench,
+  User,
+  Settings,
   LogOut,
   X,
-  Menu,
+  AlertTriangle,
 } from 'lucide-react';
 
 interface HeaderProps {
@@ -30,8 +24,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
     setCurrentPage,
     alerts,
     buildings,
-    inspections,
-    residentReports,
     setSelectedBuildingId,
     setSelectedAlertId,
     toastMessage,
@@ -45,7 +37,6 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
   const [roleMenuOpen, setRoleMenuOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const profileRef = useRef<HTMLDivElement>(null);
   const roleRef = useRef<HTMLDivElement>(null);
@@ -63,99 +54,49 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const residentBuildingId = currentUser.assignedBuildingId || 'BLD-102';
+  const pageTitles: Record<string, { title: string; subtitle: string }> = {
+    overview: {
+      title: 'Overview Dashboard',
+      subtitle: 'Real-time telemetry, campus water consumption, and leak detection',
+    },
+    buildings: {
+      title: 'Campus Buildings',
+      subtitle: 'Facility status, smart meter performance, and anomaly tracking',
+    },
+    monitoring: {
+      title: 'Water Monitoring',
+      subtitle: 'Time-series consumption curves, baselines, and excess water analysis',
+    },
+    alerts: {
+      title: 'Leak Alerts & Anomalies',
+      subtitle: 'Continuous nocturnal flow, volume spikes, and unusual pattern flags',
+    },
+    queue: {
+      title: 'Inspection Queue',
+      subtitle: 'Priority-ranked facilities ordered by multi-factor urgency score',
+    },
+    maintenance: {
+      title: 'Maintenance & Workflows',
+      subtitle: 'Field findings, pipe repair records, and work order audit trail',
+    },
+    settings: {
+      title: 'System Settings',
+      subtitle: 'Detection thresholds, priority formula weights, and Supabase cloud setup',
+    },
+    resident_portal: {
+      title: 'Resident Portal',
+      subtitle: 'Living quarters water status, issue reporting, and repair tracking',
+    },
+    technician_view: {
+      title: 'Repair Worker Workspace',
+      subtitle: 'Assigned inspection tickets, physical findings logger, and verification',
+    },
+  };
 
-  // Badges calculation
-  const relevantAlerts = currentUser.role === 'resident'
-    ? alerts.filter((a) => a.buildingId === residentBuildingId)
-    : alerts;
-
-  const activeAlertsCount = relevantAlerts.filter(
-    (a) => a.status !== 'Resolved' && a.status !== 'False Positive'
-  ).length;
-
-  const relevantInspections = currentUser.role === 'resident'
-    ? inspections.filter((i) => i.buildingId === residentBuildingId)
-    : inspections;
-
-  const openInspectionsCount = relevantInspections.filter(
-    (i) => i.status !== 'Verified' && i.status !== 'False Positive' && i.status !== 'Closed Without Repair'
-  ).length;
-
-  const residentTicketsCount = residentReports.filter(
-    (r) => r.buildingId === residentBuildingId
-  ).length;
-
-  // Adaptive top navigation tabs
-  const navTabs: Array<{
-    id: NavigationPage;
-    label: string;
-    icon: React.ComponentType<{ className?: string }>;
-    badge?: number | string;
-    badgeStyle?: string;
-  }> = [];
-
-  if (currentUser.role === 'resident') {
-    navTabs.push(
-      {
-        id: 'resident_portal',
-        label: 'Resident Portal',
-        icon: User,
-        badge: residentTicketsCount > 0 ? residentTicketsCount : undefined,
-        badgeStyle: 'bg-[#2C5B83] text-white',
-      },
-      {
-        id: 'monitoring',
-        label: 'Water Monitoring',
-        icon: LineChart,
-        badge: activeAlertsCount > 0 ? activeAlertsCount : undefined,
-        badgeStyle: 'bg-[#B2463F] text-white',
-      },
-      {
-        id: 'maintenance',
-        label: 'Maintenance & Repairs',
-        icon: Wrench,
-        badge: openInspectionsCount > 0 ? openInspectionsCount : undefined,
-        badgeStyle: 'bg-[#B27B2A] text-white',
-      }
-    );
-  } else if (currentUser.role === 'technician') {
-    navTabs.push(
-      {
-        id: 'technician_view',
-        label: 'Repair Work Orders',
-        icon: Wrench,
-        badge: openInspectionsCount > 0 ? openInspectionsCount : undefined,
-        badgeStyle: 'bg-[#B27B2A] text-white',
-      },
-      { id: 'maintenance', label: 'Maintenance History', icon: ClipboardList },
-      { id: 'monitoring', label: 'Water Monitoring', icon: LineChart },
-      { id: 'buildings', label: 'Buildings', icon: Building2 }
-    );
-  } else {
-    // Admin Top Navigation
-    navTabs.push(
-      { id: 'overview', label: 'Overview', icon: LayoutDashboard },
-      { id: 'buildings', label: 'Buildings', icon: Building2 },
-      { id: 'monitoring', label: 'Water Monitoring', icon: LineChart },
-      {
-        id: 'alerts',
-        label: 'Leak Alerts',
-        icon: AlertTriangle,
-        badge: activeAlertsCount > 0 ? activeAlertsCount : undefined,
-        badgeStyle: 'bg-[#B2463F] text-white',
-      },
-      {
-        id: 'queue',
-        label: 'Inspection Queue',
-        icon: ClipboardList,
-        badge: openInspectionsCount > 0 ? openInspectionsCount : undefined,
-        badgeStyle: 'bg-[#B27B2A] text-white',
-      },
-      { id: 'maintenance', label: 'Maintenance', icon: Wrench },
-      { id: 'settings', label: 'Settings', icon: Settings }
-    );
-  }
+  const currentInfo = pageTitles[currentPage] || {
+    title: 'Aqua Sentinel',
+    subtitle: 'Smart Water Leak Detection Platform',
+  };
 
   // Search results
   const filteredBuildings = searchQuery.trim()
@@ -177,279 +118,200 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
     : [];
 
   return (
-    <header className="sticky top-0 z-30 bg-[#1A2838] text-white border-b border-[#2A3C50] shadow-sm select-none">
+    <header className={`sticky top-0 z-20 border-b border-[#E8E4DC] px-6 py-3.5 transition-all select-none ${
+      themeMode === 'handcrafted' ? 'bg-[#FCFBF9] handcrafted-topography' : 'bg-white'
+    }`}>
       {/* Toast banner if active */}
       {toastMessage && (
-        <div className="fixed top-4 right-6 z-50 bg-[#0B1726] text-white text-xs px-3.5 py-2 rounded-md shadow-md flex items-center gap-2 border border-[#2C5B83] animate-in fade-in">
-          <CheckCircle2 className="w-3.5 h-3.5 text-[#38BDF8] flex-shrink-0" />
+        <div className="fixed top-4 right-6 z-50 bg-[#1A2838] text-white text-xs px-3.5 py-2.5 rounded-md shadow-lg flex items-center gap-2 border border-[#2A3C50] animate-in fade-in">
+          <CheckCircle2 className="w-4 h-4 text-[#38BDF8] flex-shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
 
-      {/* Main Top Navigation Row */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6">
-        <div className="flex items-center justify-between h-16 gap-4">
-          {/* Left: Redesigned Aqua Sentinel Logo & Brand */}
-          <div
-            className="flex items-center gap-3 cursor-pointer flex-shrink-0"
-            onClick={() => setCurrentPage(currentUser.role === 'resident' ? 'resident_portal' : 'overview')}
-            title="Return to home dashboard"
-          >
-            <AquaSentinelLogo size="md" showText={false} />
-            <div className="flex flex-col">
-              <span className="font-editorial font-bold text-lg text-white tracking-tight leading-none">
-                Aqua Sentinel
-              </span>
-              <span className="text-[10px] text-[#89B3D9] font-mono mt-0.5">
-                Water Intelligence Platform
-              </span>
-            </div>
+      <div className="flex items-center justify-between gap-4">
+        {/* Left: Page Title & Breadcrumb */}
+        <div>
+          <div className="flex items-center gap-2 text-xs text-[#707972]">
+            <span>Aqua Sentinel</span>
+            <span>/</span>
+            <span className="text-[#2C5B83] font-medium capitalize">
+              {currentPage.replace('_', ' ')}
+            </span>
           </div>
+          <h1 className="text-xl font-editorial font-bold text-[#1A2430] tracking-tight">
+            {currentInfo.title}
+          </h1>
+        </div>
 
-          {/* Center: Desktop Navigation Tabs */}
-          <nav className="hidden md:flex items-center gap-1 overflow-x-auto py-1">
-            {navTabs.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPage === item.id;
-
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => setCurrentPage(item.id)}
-                  className={`flex items-center gap-2 px-3 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer whitespace-nowrap ${
-                    isActive
-                      ? 'bg-[#2C5B83] text-white shadow-xs font-semibold'
-                      : 'text-[#C5D7E8] hover:text-white hover:bg-[#25394E]'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-[#38BDF8]' : 'text-[#89B3D9]'}`} />
-                  <span>{item.label}</span>
-                  {item.badge !== undefined && (
-                    <span
-                      className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full font-bold leading-none ${
-                        item.badgeStyle || 'bg-[#2C5B83] text-white'
-                      }`}
-                    >
-                      {item.badge}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </nav>
-
-          {/* Right: Actions, Role & User Profile */}
-          <div className="flex items-center gap-2 sm:gap-2.5 flex-shrink-0">
-            {/* Quick Dispatch Action (For Admin & Technician) */}
-            {currentUser.role !== 'resident' && (
-              <button
-                onClick={onOpenCreateInspection}
-                className="hidden lg:flex items-center gap-1.5 px-3 py-1.5 bg-[#2E6F56] hover:bg-[#265B46] text-white rounded-md text-xs font-medium transition-colors cursor-pointer shadow-xs border border-[#3E896E]"
-                title="Create a new inspection order"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>Dispatch</span>
-              </button>
-            )}
-
-            {/* Search Trigger */}
+        {/* Right: Actions, Search, Role Switcher & User Profile */}
+        <div className="flex items-center gap-2 sm:gap-2.5">
+          {/* Dispatch Action Button */}
+          {currentUser.role !== 'resident' && (
             <button
-              onClick={() => setSearchOpen(true)}
-              className="p-1.5 bg-[#25394E] hover:bg-[#304860] text-[#C5D7E8] hover:text-white rounded-md transition-colors border border-[#3A526E] cursor-pointer"
-              title="Search campus facilities, meters & alerts"
+              onClick={onOpenCreateInspection}
+              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold transition-colors cursor-pointer shadow-xs border border-[#1A2838]"
+              title="Create new inspection order"
             >
-              <Search className="w-4 h-4" />
+              <Plus className="w-3.5 h-3.5" />
+              <span>Dispatch Inspection</span>
+            </button>
+          )}
+
+          {/* Search Trigger Button */}
+          <button
+            onClick={() => setSearchOpen(true)}
+            className="p-2 bg-[#FAF9F7] hover:bg-[#F2ECE1] text-[#707972] hover:text-[#1A2430] rounded-md transition-colors border border-[#E8E4DC] cursor-pointer"
+            title="Search campus facilities, meters & alerts"
+          >
+            <Search className="w-4 h-4" />
+          </button>
+
+          {/* Active Role Switcher */}
+          <div className="relative" ref={roleRef}>
+            <button
+              onClick={() => setRoleMenuOpen(!roleMenuOpen)}
+              className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs font-medium border border-[#E8E4DC] bg-[#FAF9F7] text-[#1A2430] hover:bg-[#F2ECE1] transition-colors cursor-pointer"
+              title="Switch active role"
+            >
+              {currentUser.role === 'admin' && <Building2 className="w-3.5 h-3.5 text-[#2C5B83]" />}
+              {currentUser.role === 'technician' && <Wrench className="w-3.5 h-3.5 text-[#B27B2A]" />}
+              {currentUser.role === 'resident' && <User className="w-3.5 h-3.5 text-[#2E6F56]" />}
+
+              <span className="hidden sm:inline">
+                {currentUser.role === 'admin'
+                  ? 'Facility Admin'
+                  : currentUser.role === 'technician'
+                  ? 'Repair Worker'
+                  : 'Resident'}
+              </span>
+
+              <ChevronDown className="w-3 h-3 text-[#707972] ml-0.5" />
             </button>
 
-            {/* Active Role Switcher */}
-            <div className="relative" ref={roleRef}>
-              <button
-                onClick={() => setRoleMenuOpen(!roleMenuOpen)}
-                className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-md text-xs font-medium border border-[#3A526E] bg-[#25394E] text-white hover:bg-[#304860] transition-colors cursor-pointer"
-                title="Switch active role"
-              >
-                {currentUser.role === 'admin' && <Building2 className="w-3.5 h-3.5 text-[#38BDF8]" />}
-                {currentUser.role === 'technician' && <Wrench className="w-3.5 h-3.5 text-[#F59E0B]" />}
-                {currentUser.role === 'resident' && <User className="w-3.5 h-3.5 text-[#34D399]" />}
-
-                <span className="hidden sm:inline">
-                  {currentUser.role === 'admin'
-                    ? 'Admin'
-                    : currentUser.role === 'technician'
-                    ? 'Repair'
-                    : 'Resident'}
-                </span>
-
-                <ChevronDown className="w-3 h-3 text-[#89B3D9]" />
-              </button>
-
-              {/* Role Menu Dropdown */}
-              {roleMenuOpen && (
-                <div className="absolute right-0 mt-1.5 w-52 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E6E1] p-1.5 z-50 animate-pop-in">
-                  <div className="px-2.5 py-1 border-b border-[#F0EFEA] mb-1">
-                    <p className="text-[10px] font-semibold text-[#707972] uppercase tracking-wider">
-                      Switch Role Perspective
-                    </p>
-                  </div>
-
-                  <div className="space-y-0.5">
-                    <button
-                      onClick={() => {
-                        switchRole('admin');
-                        setRoleMenuOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
-                        currentUser.role === 'admin'
-                          ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
-                          : 'hover:bg-[#FAF9F7] text-[#1A2430]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Building2 className="w-3.5 h-3.5 text-[#2C5B83]" />
-                        <span>Facility Admin</span>
-                      </div>
-                      {currentUser.role === 'admin' && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        switchRole('technician');
-                        setRoleMenuOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
-                        currentUser.role === 'technician'
-                          ? 'bg-[#FAF3E7] font-bold text-[#B27B2A]'
-                          : 'hover:bg-[#FAF9F7] text-[#1A2430]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <Wrench className="w-3.5 h-3.5 text-[#B27B2A]" />
-                        <span>Repair Worker</span>
-                      </div>
-                      {currentUser.role === 'technician' && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#B27B2A]" />
-                      )}
-                    </button>
-
-                    <button
-                      onClick={() => {
-                        switchRole('resident');
-                        setRoleMenuOpen(false);
-                      }}
-                      className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
-                        currentUser.role === 'resident'
-                          ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
-                          : 'hover:bg-[#FAF9F7] text-[#1A2430]'
-                      }`}
-                    >
-                      <div className="flex items-center gap-2">
-                        <User className="w-3.5 h-3.5 text-[#2C5B83]" />
-                        <span>Resident</span>
-                      </div>
-                      {currentUser.role === 'resident' && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
-                      )}
-                    </button>
-                  </div>
+            {/* Role Menu Dropdown */}
+            {roleMenuOpen && (
+              <div className="absolute right-0 mt-1.5 w-52 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E4DC] p-1.5 z-50 animate-pop-in">
+                <div className="px-2.5 py-1 border-b border-[#F0EFEA] mb-1">
+                  <p className="text-[10px] font-semibold text-[#707972] uppercase tracking-wider">
+                    Switch Role Perspective
+                  </p>
                 </div>
-              )}
-            </div>
 
-            {/* User Profile */}
-            <div className="relative" ref={profileRef}>
-              <button
-                onClick={() => setProfileOpen(!profileOpen)}
-                className="flex items-center gap-2 pl-1 pr-1.5 py-1 rounded-md hover:bg-[#25394E] transition-colors border border-transparent hover:border-[#3A526E] cursor-pointer"
-              >
-                <div className="w-7 h-7 rounded-full bg-[#2C5B83] border border-[#38BDF8]/40 flex items-center justify-center text-white font-bold text-xs">
-                  {currentUser.avatarInitials}
-                </div>
-                <ChevronDown className="w-3 h-3 text-[#89B3D9]" />
-              </button>
-
-              {profileOpen && (
-                <div className="absolute right-0 mt-1.5 w-60 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E6E1] p-2 z-50 animate-pop-in">
-                  <div className="px-2.5 py-1.5 border-b border-[#F0EFEA] mb-1">
-                    <p className="text-xs font-semibold text-[#1A2430]">{currentUser.name}</p>
-                    <p className="text-[11px] text-[#707972]">{currentUser.email}</p>
-                    <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-[#F4F8FA] text-[#2C5B83] border border-[#D2E0EC] font-medium">
-                      {currentUser.roleTitle}
-                    </span>
-                  </div>
-
-                  {currentUser.role === 'admin' && (
-                    <button
-                      onClick={() => {
-                        setCurrentPage('settings');
-                        setProfileOpen(false);
-                      }}
-                      className="w-full text-left px-2.5 py-1.5 text-xs text-[#1A2430] hover:bg-[#FAF9F7] rounded cursor-pointer flex items-center gap-2"
-                    >
-                      <Settings className="w-3.5 h-3.5 text-[#707972]" />
-                      <span>Platform Settings</span>
-                    </button>
-                  )}
+                <div className="space-y-0.5">
+                  <button
+                    onClick={() => {
+                      switchRole('admin');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                      currentUser.role === 'admin'
+                        ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
+                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Building2 className="w-3.5 h-3.5 text-[#2C5B83]" />
+                      <span>Facility Admin</span>
+                    </div>
+                    {currentUser.role === 'admin' && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
+                    )}
+                  </button>
 
                   <button
                     onClick={() => {
-                      logout();
-                      setProfileOpen(false);
+                      switchRole('technician');
+                      setRoleMenuOpen(false);
                     }}
-                    className="w-full text-left px-2.5 py-1.5 text-xs text-[#B2463F] hover:bg-[#FDF2F2] rounded flex items-center gap-2 font-medium mt-1 border-t border-[#F0EFEA] pt-1.5 cursor-pointer"
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                      currentUser.role === 'technician'
+                        ? 'bg-[#FAF3E7] font-bold text-[#B27B2A]'
+                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                    }`}
                   >
-                    <LogOut className="w-3.5 h-3.5" />
-                    <span>Log Out</span>
+                    <div className="flex items-center gap-2">
+                      <Wrench className="w-3.5 h-3.5 text-[#B27B2A]" />
+                      <span>Repair Worker</span>
+                    </div>
+                    {currentUser.role === 'technician' && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#B27B2A]" />
+                    )}
+                  </button>
+
+                  <button
+                    onClick={() => {
+                      switchRole('resident');
+                      setRoleMenuOpen(false);
+                    }}
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                      currentUser.role === 'resident'
+                        ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
+                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <User className="w-3.5 h-3.5 text-[#2C5B83]" />
+                      <span>Resident</span>
+                    </div>
+                    {currentUser.role === 'resident' && (
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
+                    )}
                   </button>
                 </div>
-              )}
-            </div>
+              </div>
+            )}
+          </div>
 
-            {/* Mobile Hamburger Menu Toggle */}
+          {/* User Profile */}
+          <div className="relative" ref={profileRef}>
             <button
-              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-1.5 md:hidden text-[#C5D7E8] hover:text-white rounded-md hover:bg-[#25394E] cursor-pointer"
+              onClick={() => setProfileOpen(!profileOpen)}
+              className="flex items-center gap-2 pl-1 pr-1.5 py-1 rounded-md hover:bg-[#F2ECE1] transition-colors border border-transparent hover:border-[#E8E4DC] cursor-pointer"
             >
-              {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              <div className="w-7 h-7 rounded-full bg-[#1A2838] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+                {currentUser.avatarInitials}
+              </div>
+              <ChevronDown className="w-3 h-3 text-[#707972]" />
             </button>
+
+            {profileOpen && (
+              <div className="absolute right-0 mt-1.5 w-60 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E4DC] p-2 z-50 animate-pop-in">
+                <div className="px-2.5 py-1.5 border-b border-[#F0EFEA] mb-1">
+                  <p className="text-xs font-semibold text-[#1A2430]">{currentUser.name}</p>
+                  <p className="text-[11px] text-[#707972]">{currentUser.email}</p>
+                  <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-[#F4F8FA] text-[#2C5B83] border border-[#D2E0EC] font-medium">
+                    {currentUser.roleTitle}
+                  </span>
+                </div>
+
+                {currentUser.role === 'admin' && (
+                  <button
+                    onClick={() => {
+                      setCurrentPage('settings');
+                      setProfileOpen(false);
+                    }}
+                    className="w-full text-left px-2.5 py-1.5 text-xs text-[#1A2430] hover:bg-[#FAF9F7] rounded cursor-pointer flex items-center gap-2"
+                  >
+                    <Settings className="w-3.5 h-3.5 text-[#707972]" />
+                    <span>Platform Settings</span>
+                  </button>
+                )}
+
+                <button
+                  onClick={() => {
+                    logout();
+                    setProfileOpen(false);
+                  }}
+                  className="w-full text-left px-2.5 py-1.5 text-xs text-[#B2463F] hover:bg-[#FDF2F2] rounded flex items-center gap-2 font-medium mt-1 border-t border-[#F0EFEA] pt-1.5 cursor-pointer"
+                >
+                  <LogOut className="w-3.5 h-3.5" />
+                  <span>Log Out</span>
+                </button>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Mobile Navigation Dropdown */}
-        {mobileMenuOpen && (
-          <div className="md:hidden py-3 border-t border-[#2A3C50] space-y-1 animate-pop-in">
-            {navTabs.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPage === item.id;
-
-              return (
-                <button
-                  key={item.id}
-                  onClick={() => {
-                    setCurrentPage(item.id);
-                    setMobileMenuOpen(false);
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-md text-xs font-medium transition-colors cursor-pointer ${
-                    isActive
-                      ? 'bg-[#2C5B83] text-white font-semibold'
-                      : 'text-[#C5D7E8] hover:text-white hover:bg-[#25394E]'
-                  }`}
-                >
-                  <div className="flex items-center gap-2.5">
-                    <Icon className="w-4 h-4 text-[#89B3D9]" />
-                    <span>{item.label}</span>
-                  </div>
-                  {item.badge !== undefined && (
-                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full font-bold bg-[#B2463F] text-white">
-                      {item.badge}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
-        )}
       </div>
 
       {/* Global Search Modal */}

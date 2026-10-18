@@ -233,14 +233,11 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
   return (
     <div className="space-y-6">
       {/* 1. Header & Live Telemetry Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-md border border-[#E2E8F0]">
+      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-lg border border-[#E8E4DC] shadow-xs">
         <div>
           <h1 className="text-xl sm:text-2xl font-editorial font-bold text-[#1A2430] tracking-tight">
             Dashboard Overview
           </h1>
-          <p className="text-xs text-[#707972] mt-0.5">
-            Campus-wide water telemetry, real-time anomalies, and prioritised inspection dispatch
-          </p>
         </div>
 
         <div className="flex flex-wrap items-center gap-2.5">

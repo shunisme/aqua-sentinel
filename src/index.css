@@ -312,7 +312,7 @@ html.theme-handcrafted,
 @keyframes fade-slide-up {
   0% {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(8px);
   }
   100% {
     opacity: 1;
@@ -321,7 +321,7 @@ html.theme-handcrafted,
 }
 
 .animate-fade-slide-up {
-  animation: fade-slide-up 0.4s ease-out forwards;
+  animation: fade-slide-up 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes launch-progress {
@@ -336,4 +336,12 @@ html.theme-handcrafted,
 .animate-launch-progress {
   animation: launch-progress 1.2s ease-in-out forwards;
 }
+
+/* Silky smooth micro-interactions */
+button, a {
+  transition-property: color, background-color, border-color, box-shadow, transform, opacity;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-duration: 150ms;
+}
+
 

@@ -1,4 +1,4 @@
-Aqua Sentinel, a Smart Water Leak Detection & Repair Platform
+## Aqua Sentinel, a Smart Water Leak Detection & Repair Platform
 
 Live demo: https://aqua-sentinel-pink.vercel.app/
 

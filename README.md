@@ -59,10 +59,10 @@ The highest score jumps straight to the top of the list!
 
 ## Tech Stack
 
-- **React & Vite**: Super fast and modern website builder.
-- **TypeScript**: Helps keep our code clean with zero errors.
-- **Tailwind CSS**: Makes the UI look sleek, warm, and easy on the eyes.
-- **Recharts**: Beautiful interactive charts to see hourly water curves.
-- **Lucide Icons**: Crisp, clean icons for easy navigation.
-- **Supabase**: Cloud database and user login system.
+- **React & Vite**
+- **TypeScript**
+- **Tailwind CSS**
+- **Recharts**
+- **Lucide Icons**
+- **Supabase**
 

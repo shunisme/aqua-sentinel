@@ -39,8 +39,6 @@ You can switch between 3 different perspectives anytime:
 
 ## How Does It Spot Leaks?
 
-Instead of guessing, the app uses 3 simple, common-sense rules:
-
 ### 1. The Spike
 - **What it means:** A building suddenly uses 2x or 3x more water in an hour than it usually does.
 - **Example:** A cooling tower valve gets stuck wide open and floods 1,300 litres in one hour!

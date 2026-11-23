@@ -57,28 +57,28 @@ export const SettingsPage: React.FC = () => {
   return (
     <div className="space-y-6 max-w-4xl w-full">
       {/* Top Header */}
-      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-lg border border-[#E8E4DC] shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 mb-1">
-            <h1 className="text-xl sm:text-2xl font-semibold text-[#0F172A] tracking-tight">
-              Platform Configuration & Analytical Parameters
+            <h1 className="text-xl sm:text-2xl font-semibold font-bold text-[#0F172A] tracking-tight">
+              Settings & Leak Detection Rules
             </h1>
-            <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#EFF6FF] text-[#2D6A4F] border border-[#BFDBFE] font-medium">
-              ALGORITHM PARAMETERS
+            <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#F0FDF4] text-[#2E6F56] border border-[#BBF7D0] font-medium">
+              SYSTEM CONFIG
             </span>
           </div>
-          <p className="text-xs text-[#64748B]">
-            Configure anomaly sensitivity thresholds, multi-factor priority weights, and campus water utility tariffs.
+          <p className="text-xs text-[#707972]">
+            Adjust leak detection sensitivity, priority formula weights, and campus water rates.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={handleRerun}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F2744] hover:bg-[#1E3A5F] text-white rounded-md text-xs font-medium transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold transition-colors cursor-pointer shadow-xs border border-[#1A2838]"
           >
-            <RefreshCw className="w-3.5 h-3.5 text-[#60A5FA]" />
-            <span>Rerun Detection Engine</span>
+            <RefreshCw className="w-3.5 h-3.5 text-[#38BDF8]" />
+            <span>Re-check All Leaks</span>
           </button>
         </div>
       </div>

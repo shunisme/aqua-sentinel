@@ -37,9 +37,7 @@ const MainLayout: React.FC = () => {
   }
 
   return (
-    <div className={`min-h-screen text-[#1A2430] flex font-sans transition-colors duration-200 ${
-      themeMode === 'handcrafted' ? 'bg-[#F9F9F8] theme-handcrafted' : 'bg-[#F8FAFC] theme-classic'
-    }`}>
+    <div className="min-h-screen text-[#0F172A] flex font-sans bg-[#F8FAFC]">
       {/* Left Navigation Sidebar */}
       <Sidebar
         collapsed={sidebarCollapsed}
@@ -48,13 +46,13 @@ const MainLayout: React.FC = () => {
 
       {/* Main Content Area */}
       <div
-        className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${
-          sidebarCollapsed ? 'ml-20' : 'ml-64'
+        className={`flex-1 flex flex-col min-h-screen transition-[margin] duration-200 ${
+          sidebarCollapsed ? 'ml-16' : 'ml-60'
         }`}
       >
         <Header onOpenCreateInspection={() => handleOpenCreateInspection()} />
 
-        <main className="flex-1 p-6 w-full animate-fade-slide-up">
+        <main className="flex-1 p-6 w-full max-w-[1536px] animate-fade-in">
           {currentPage === 'overview' && (
             currentUser.role === 'resident' ? (
               <ResidentPortalPage />
@@ -96,12 +94,12 @@ const MainLayout: React.FC = () => {
             currentUser.role === 'admin' ? (
               <SettingsPage />
             ) : (
-              <div className="bg-white p-8 rounded-lg border border-[#E8E6E1] text-center space-y-3 max-w-md mx-auto my-12 shadow-sm">
-                <div className="w-12 h-12 rounded-full bg-[#FDF2F2] border border-[#F8D7DA] flex items-center justify-center mx-auto text-[#B2463F]">
+              <div className="bg-white p-8 rounded-lg border border-[#E2E8F0] text-center space-y-3 max-w-md mx-auto my-12 shadow-2xs">
+                <div className="w-12 h-12 rounded-full bg-[#FEF2F2] border border-[#FECACA] flex items-center justify-center mx-auto text-[#DC2626]">
                   <Lock className="w-6 h-6" />
                 </div>
-                <h2 className="text-base font-editorial font-bold text-[#1A2430]">Access Restricted</h2>
-                <p className="text-xs text-[#707972]">
+                <h2 className="text-base font-semibold text-[#0F172A]">Access Restricted</h2>
+                <p className="text-xs text-[#64748B]">
                   Platform settings and system configuration are restricted to Facility Administrators only.
                 </p>
               </div>
@@ -116,18 +114,18 @@ const MainLayout: React.FC = () => {
         </main>
 
         {/* Enterprise Global Footer */}
-        <footer className="px-6 py-4 bg-white border-t border-[#E8E6E1] text-xs text-[#707972] flex flex-wrap items-center justify-between gap-4 mt-auto">
+        <footer className="px-6 py-4 bg-white border-t border-[#E2E8F0] text-xs text-[#64748B] flex flex-wrap items-center justify-between gap-4 mt-auto">
           <div className="flex items-center gap-2">
-            <span className="font-editorial font-bold text-[#1A2430]">Aqua Sentinel</span>
-            <span>—</span>
-            <span>Water Infrastructure Monitoring & Inspection Prioritisation</span>
+            <span className="font-semibold text-[#0F172A]">Aqua Sentinel</span>
+            <span className="text-[#94A3B8]">—</span>
+            <span className="text-[#64748B]">Water telemetry and priority dispatch</span>
           </div>
-          <div className="flex items-center gap-3 text-[#707972] tabular-nums font-mono text-[11px]">
-            <span>Deterministic Anomaly Engine</span>
-            <span>•</span>
-            <span className="inline-flex items-center gap-1.5 text-[#2E6F56] font-sans font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#2E6F56] animate-pulse" />
-              Telemetry Sync Active
+          <div className="flex items-center gap-3 text-[#64748B] tabular-nums font-mono text-[11px]">
+            <span>Deterministic engine</span>
+            <span className="text-[#CBD5E1]">•</span>
+            <span className="inline-flex items-center gap-1.5 text-[#16A34A] font-sans font-medium">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />
+              Telemetry synchronized
             </span>
           </div>
         </footer>

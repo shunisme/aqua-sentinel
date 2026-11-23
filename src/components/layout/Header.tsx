@@ -118,12 +118,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
     : [];
 
   return (
-    <header className={`sticky top-0 z-20 border-b border-[#E8E4DC] px-6 py-3.5 transition-all select-none ${
-      themeMode === 'handcrafted' ? 'bg-[#FCFBF9] handcrafted-topography' : 'bg-white'
-    }`}>
+    <header className="sticky top-0 z-20 border-b border-[#E2E8F0] bg-white px-6 py-3 select-none">
       {/* Toast banner if active */}
       {toastMessage && (
-        <div className="fixed top-4 right-6 z-50 bg-[#1A2838] text-white text-xs px-3.5 py-2.5 rounded-md shadow-lg flex items-center gap-2 border border-[#2A3C50] animate-in fade-in">
+        <div className="fixed top-4 right-6 z-50 bg-[#0F172A] text-white text-xs px-3.5 py-2.5 rounded-lg shadow-sm flex items-center gap-2 border border-[#1E293B] animate-fade-in">
           <CheckCircle2 className="w-4 h-4 text-[#38BDF8] flex-shrink-0" />
           <span>{toastMessage}</span>
         </div>
@@ -132,14 +130,14 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
       <div className="flex items-center justify-between gap-4">
         {/* Left: Page Title & Breadcrumb */}
         <div>
-          <div className="flex items-center gap-2 text-xs text-[#707972]">
+          <div className="flex items-center gap-2 text-xs text-[#64748B]">
             <span>Aqua Sentinel</span>
             <span>/</span>
-            <span className="text-[#2C5B83] font-medium capitalize">
+            <span className="text-[#0F172A] font-medium capitalize">
               {currentPage.replace('_', ' ')}
             </span>
           </div>
-          <h1 className="text-xl font-editorial font-bold text-[#1A2430] tracking-tight">
+          <h1 className="text-lg font-semibold text-[#0F172A] tracking-tight">
             {currentInfo.title}
           </h1>
         </div>
@@ -150,7 +148,7 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
           {currentUser.role !== 'resident' && (
             <button
               onClick={onOpenCreateInspection}
-              className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold transition-colors cursor-pointer shadow-xs border border-[#1A2838]"
+              className="flex items-center gap-1.5 px-3.5 py-1.5 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded-lg text-xs font-medium transition-colors cursor-pointer"
               title="Create new inspection order"
             >
               <Plus className="w-3.5 h-3.5" />
@@ -161,8 +159,8 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
           {/* Search Trigger Button */}
           <button
             onClick={() => setSearchOpen(true)}
-            className="p-2 bg-[#FAF9F7] hover:bg-[#F2ECE1] text-[#707972] hover:text-[#1A2430] rounded-md transition-colors border border-[#E8E4DC] cursor-pointer"
-            title="Search campus facilities, meters & alerts"
+            className="p-2 bg-white hover:bg-[#F8FAFC] text-[#64748B] hover:text-[#0F172A] rounded-lg transition-colors border border-[#E2E8F0] cursor-pointer"
+            title="Search campus facilities, meters and alerts"
           >
             <Search className="w-4 h-4" />
           </button>
@@ -171,12 +169,12 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
           <div className="relative" ref={roleRef}>
             <button
               onClick={() => setRoleMenuOpen(!roleMenuOpen)}
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-md text-xs font-medium border border-[#E8E4DC] bg-[#FAF9F7] text-[#1A2430] hover:bg-[#F2ECE1] transition-colors cursor-pointer"
+              className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-[#E2E8F0] bg-white text-[#0F172A] hover:bg-[#F8FAFC] transition-colors cursor-pointer"
               title="Switch active role"
             >
-              {currentUser.role === 'admin' && <Building2 className="w-3.5 h-3.5 text-[#2C5B83]" />}
-              {currentUser.role === 'technician' && <Wrench className="w-3.5 h-3.5 text-[#B27B2A]" />}
-              {currentUser.role === 'resident' && <User className="w-3.5 h-3.5 text-[#2E6F56]" />}
+              {currentUser.role === 'admin' && <Building2 className="w-3.5 h-3.5 text-[#0F172A]" />}
+              {currentUser.role === 'technician' && <Wrench className="w-3.5 h-3.5 text-[#D97706]" />}
+              {currentUser.role === 'resident' && <User className="w-3.5 h-3.5 text-[#16A34A]" />}
 
               <span className="hidden sm:inline">
                 {currentUser.role === 'admin'
@@ -186,15 +184,15 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
                   : 'Resident'}
               </span>
 
-              <ChevronDown className="w-3 h-3 text-[#707972] ml-0.5" />
+              <ChevronDown className="w-3 h-3 text-[#64748B] ml-0.5" />
             </button>
 
             {/* Role Menu Dropdown */}
             {roleMenuOpen && (
-              <div className="absolute right-0 mt-1.5 w-52 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E4DC] p-1.5 z-50 animate-pop-in">
-                <div className="px-2.5 py-1 border-b border-[#F0EFEA] mb-1">
-                  <p className="text-[10px] font-semibold text-[#707972] uppercase tracking-wider">
-                    Switch Role Perspective
+              <div className="absolute right-0 mt-1.5 w-52 bg-white text-[#0F172A] rounded-xl shadow-md border border-[#E2E8F0] p-1.5 z-50 animate-fade-in">
+                <div className="px-2.5 py-1 border-b border-[#F1F5F9] mb-1">
+                  <p className="text-[11px] font-medium text-[#64748B]">
+                    Switch role perspective
                   </p>
                 </div>
 
@@ -204,18 +202,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
                       switchRole('admin');
                       setRoleMenuOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
                       currentUser.role === 'admin'
-                        ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
-                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                        ? 'bg-[#F1F5F9] font-semibold text-[#0F172A]'
+                        : 'hover:bg-[#F8FAFC] text-[#475569]'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <Building2 className="w-3.5 h-3.5 text-[#2C5B83]" />
+                      <Building2 className="w-3.5 h-3.5 text-[#0F172A]" />
                       <span>Facility Admin</span>
                     </div>
                     {currentUser.role === 'admin' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#0F172A]" />
                     )}
                   </button>
 
@@ -224,18 +222,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
                       switchRole('technician');
                       setRoleMenuOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
                       currentUser.role === 'technician'
-                        ? 'bg-[#FAF3E7] font-bold text-[#B27B2A]'
-                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                        ? 'bg-[#F1F5F9] font-semibold text-[#0F172A]'
+                        : 'hover:bg-[#F8FAFC] text-[#475569]'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <Wrench className="w-3.5 h-3.5 text-[#B27B2A]" />
+                      <Wrench className="w-3.5 h-3.5 text-[#D97706]" />
                       <span>Repair Worker</span>
                     </div>
                     {currentUser.role === 'technician' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#B27B2A]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D97706]" />
                     )}
                   </button>
 
@@ -244,18 +242,18 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
                       switchRole('resident');
                       setRoleMenuOpen(false);
                     }}
-                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded text-left text-xs transition-colors cursor-pointer ${
+                    className={`w-full flex items-center justify-between px-2.5 py-2 rounded-lg text-left text-xs transition-colors cursor-pointer ${
                       currentUser.role === 'resident'
-                        ? 'bg-[#F4F8FA] font-bold text-[#2C5B83]'
-                        : 'hover:bg-[#FAF9F7] text-[#1A2430]'
+                        ? 'bg-[#F1F5F9] font-semibold text-[#0F172A]'
+                        : 'hover:bg-[#F8FAFC] text-[#475569]'
                     }`}
                   >
                     <div className="flex items-center gap-2">
-                      <User className="w-3.5 h-3.5 text-[#2C5B83]" />
+                      <User className="w-3.5 h-3.5 text-[#16A34A]" />
                       <span>Resident</span>
                     </div>
                     {currentUser.role === 'resident' && (
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#2C5B83]" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A]" />
                     )}
                   </button>
                 </div>
@@ -267,20 +265,20 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
           <div className="relative" ref={profileRef}>
             <button
               onClick={() => setProfileOpen(!profileOpen)}
-              className="flex items-center gap-2 pl-1 pr-1.5 py-1 rounded-md hover:bg-[#F2ECE1] transition-colors border border-transparent hover:border-[#E8E4DC] cursor-pointer"
+              className="flex items-center gap-2 pl-1 pr-1.5 py-1 rounded-lg hover:bg-[#F8FAFC] transition-colors border border-transparent hover:border-[#E2E8F0] cursor-pointer"
             >
-              <div className="w-7 h-7 rounded-full bg-[#1A2838] text-white flex items-center justify-center font-bold text-xs shadow-xs">
+              <div className="w-7 h-7 rounded-full bg-[#0F172A] text-white flex items-center justify-center font-medium text-xs">
                 {currentUser.avatarInitials}
               </div>
-              <ChevronDown className="w-3 h-3 text-[#707972]" />
+              <ChevronDown className="w-3 h-3 text-[#64748B]" />
             </button>
 
             {profileOpen && (
-              <div className="absolute right-0 mt-1.5 w-60 bg-white text-[#1A2430] rounded-md shadow-lg border border-[#E8E4DC] p-2 z-50 animate-pop-in">
-                <div className="px-2.5 py-1.5 border-b border-[#F0EFEA] mb-1">
-                  <p className="text-xs font-semibold text-[#1A2430]">{currentUser.name}</p>
-                  <p className="text-[11px] text-[#707972]">{currentUser.email}</p>
-                  <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-[#F4F8FA] text-[#2C5B83] border border-[#D2E0EC] font-medium">
+              <div className="absolute right-0 mt-1.5 w-60 bg-white text-[#0F172A] rounded-xl shadow-md border border-[#E2E8F0] p-2 z-50 animate-fade-in">
+                <div className="px-2.5 py-1.5 border-b border-[#F1F5F9] mb-1">
+                  <p className="text-xs font-semibold text-[#0F172A]">{currentUser.name}</p>
+                  <p className="text-[11px] text-[#64748B]">{currentUser.email}</p>
+                  <span className="inline-block mt-1 text-[10px] px-2 py-0.5 rounded bg-[#F1F5F9] text-[#475569] border border-[#E2E8F0] font-medium">
                     {currentUser.roleTitle}
                   </span>
                 </div>
@@ -291,10 +289,10 @@ export const Header: React.FC<HeaderProps> = ({ onOpenCreateInspection }) => {
                       setCurrentPage('settings');
                       setProfileOpen(false);
                     }}
-                    className="w-full text-left px-2.5 py-1.5 text-xs text-[#1A2430] hover:bg-[#FAF9F7] rounded cursor-pointer flex items-center gap-2"
+                    className="w-full text-left px-2.5 py-1.5 text-xs text-[#0F172A] hover:bg-[#F8FAFC] rounded-lg cursor-pointer flex items-center gap-2"
                   >
-                    <Settings className="w-3.5 h-3.5 text-[#707972]" />
-                    <span>Platform Settings</span>
+                    <Settings className="w-3.5 h-3.5 text-[#64748B]" />
+                    <span>System Settings</span>
                   </button>
                 )}
 

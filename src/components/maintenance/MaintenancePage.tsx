@@ -581,8 +581,28 @@ export const MaintenancePage: React.FC<MaintenancePageProps> = ({
         /* ADMIN & TECHNICIAN VIEW: Full Campus Workflow & Dispatch                  */
         /* ========================================================================= */
         <>
+          {/* Page Header */}
+          <div className="bg-white p-5 rounded-lg border border-[#E8E4DC] shadow-xs flex flex-wrap items-center justify-between gap-4">
+            <div>
+              <h1 className="text-xl sm:text-2xl font-semibold font-bold text-[#0F172A] tracking-tight">
+                Maintenance & Repair Work Orders
+              </h1>
+              <p className="text-xs text-[#707972] mt-0.5">
+                Track inspection tickets, log physical findings, and record pipe repair outcomes.
+              </p>
+            </div>
+
+            <button
+              onClick={onOpenCreateInspection}
+              className="flex items-center gap-1.5 px-3.5 py-2 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold transition-colors cursor-pointer shadow-xs border border-[#1A2838]"
+            >
+              <PlusCircle className="w-3.5 h-3.5" />
+              <span>+ Create Work Order</span>
+            </button>
+          </div>
+
           {/* Controls Bar */}
-          <div className="bg-white p-4 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-3">
+          <div className="bg-white p-3.5 rounded-lg border border-[#E8E4DC] shadow-xs flex flex-wrap items-center justify-between gap-3">
             <div className="relative flex-1 min-w-[240px]">
               <Search className="w-4 h-4 text-[#64748B] absolute left-3 top-1/2 -translate-y-1/2" />
               <input

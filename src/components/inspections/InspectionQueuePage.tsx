@@ -82,17 +82,17 @@ export const InspectionQueuePage: React.FC<InspectionQueuePageProps> = ({
   return (
     <div className="space-y-6">
       {/* Header Card */}
-      <div className="p-4 sm:p-5 rounded-md bg-white border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+      <div className="p-4 sm:p-5 rounded-lg bg-white border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 rounded bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] flex-shrink-0">
             <ClipboardList className="w-4 h-4" />
           </div>
           <div>
             <h2 className="font-semibold text-base text-[#0F172A]">
-              Inspection Prioritisation Queue
+              Repair Priority Queue (Ranked 1 to 100)
             </h2>
             <p className="text-xs text-[#64748B] mt-0.5">
-              Ranked facilities ordered by multi-factor urgency scoring for technician dispatch
+              Facilities ranked by leak urgency so technicians know which issue to fix first.
             </p>
           </div>
         </div>

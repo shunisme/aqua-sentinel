@@ -96,6 +96,24 @@ export const LeakAlertsPage: React.FC<LeakAlertsPageProps> = ({ onOpenCreateInsp
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold text-[#0F172A] tracking-tight">
+            Active Leak Alerts
+          </h1>
+          <p className="text-xs text-[#64748B] mt-0.5">
+            Real-time flags for abnormal water spikes and continuous overnight flow across campus.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <span className="px-3 py-1 rounded bg-[#FEF2F2] text-[#DC2626] border border-[#FECACA] text-xs font-semibold font-mono">
+            {activeCount} Active Unresolved
+          </span>
+        </div>
+      </div>
+
       {/* Resident House Context Banner */}
       {isResident && (
         <div className="bg-white border border-[#E2E8F0] rounded-md p-4 flex items-center justify-between">

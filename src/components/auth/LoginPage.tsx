@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useApp, DEMO_USERS } from '../../context/AppContext';
 import { UserRole, UserProfile } from '../../types';
 import {
-  Droplet,
   Building2,
   Wrench,
   User,
@@ -15,7 +14,6 @@ import {
   AlertCircle,
   Eye,
   EyeOff,
-  Sparkles,
   ShieldCheck,
 } from 'lucide-react';
 import { AquaSentinelLogo } from '../common/AquaSentinelLogo';
@@ -216,14 +214,14 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#F9F9F8] text-[#1A2430] flex flex-col justify-center items-center p-4 sm:p-6 font-sans">
+    <div className="min-h-screen bg-[#F8FAFC] text-[#0F172A] flex flex-col justify-center items-center p-4 sm:p-6 font-sans">
       <div className="w-full max-w-md space-y-5">
         {/* Brand Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#E8E6E1]">
+        <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
           <div className="flex items-center gap-3">
             <AquaSentinelLogo size="md" showText={false} />
             <div>
-              <h1 className="text-xl font-editorial font-bold text-[#1A2430] tracking-tight">
+              <h1 className="text-lg font-semibold text-[#0F172A] tracking-tight">
                 Aqua Sentinel
               </h1>
             </div>
@@ -233,16 +231,16 @@ export const LoginPage: React.FC = () => {
           <button
             type="button"
             onClick={() => setShowSupabaseSettings(!showSupabaseSettings)}
-            className={`flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium border transition-colors cursor-pointer ${
+            className={`flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium border transition-colors cursor-pointer ${
               supabaseConfigured
-                ? 'bg-[#EBF5EE] text-[#2E6F56] border-[#CCE6D5] hover:bg-[#DDF0E3]'
-                : 'bg-[#F2ECE1] text-[#8C6B2D] border-[#E0D3BE] hover:bg-[#E9DFCE]'
+                ? 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
+                : 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
             }`}
             title="Configure or inspect Supabase connection"
           >
             <span
               className={`w-1.5 h-1.5 rounded-full ${
-                supabaseConfigured ? 'bg-[#2E6F56] animate-pulse' : 'bg-[#B27B2A]'
+                supabaseConfigured ? 'bg-[#10B981]' : 'bg-[#D97706]'
               }`}
             />
             <Database className="w-3 h-3" />
@@ -252,30 +250,30 @@ export const LoginPage: React.FC = () => {
 
         {/* Supabase Configuration Drawer */}
         {showSupabaseSettings && (
-          <div className="bg-white rounded-lg border border-[#E8E6E1] p-4 space-y-3 shadow-sm animate-pop-in">
-            <div className="flex items-center justify-between border-b border-[#F0EFEA] pb-2">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-4 space-y-3 shadow-2xs">
+            <div className="flex items-center justify-between border-b border-[#E2E8F0] pb-2">
               <div className="flex items-center gap-2">
-                <Database className="w-4 h-4 text-[#2C5B83]" />
-                <h3 className="text-xs font-semibold text-[#1A2430]">
+                <Database className="w-4 h-4 text-[#2563EB]" />
+                <h3 className="text-xs font-semibold text-[#0F172A]">
                   Supabase Project Configuration
                 </h3>
               </div>
               <button
                 type="button"
                 onClick={() => setShowSupabaseSettings(false)}
-                className="text-xs text-[#707972] hover:text-[#1A2430] cursor-pointer"
+                className="text-xs text-[#64748B] hover:text-[#0F172A] cursor-pointer"
               >
                 Close
               </button>
             </div>
 
-            <p className="text-[11px] text-[#707972]">
+            <p className="text-[11px] text-[#64748B]">
               Connect your live Supabase project to enable persistent Auth, user session management, and role metadata.
             </p>
 
             <form onSubmit={handleSaveSupabaseConfig} className="space-y-2.5">
               <div>
-                <label className="block text-[11px] font-medium text-[#4A5568] mb-0.5">
+                <label className="block text-[11px] font-medium text-[#475569] mb-0.5">
                   Supabase Project URL
                 </label>
                 <input
@@ -283,12 +281,12 @@ export const LoginPage: React.FC = () => {
                   placeholder="https://xyzcompany.supabase.co"
                   value={customUrl}
                   onChange={(e) => setCustomUrl(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded focus:outline-none focus:border-[#2C5B83]"
+                  className="w-full px-3 py-1.5 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-medium text-[#4A5568] mb-0.5">
+                <label className="block text-[11px] font-medium text-[#475569] mb-0.5">
                   Supabase Anon Public Key
                 </label>
                 <input
@@ -296,17 +294,17 @@ export const LoginPage: React.FC = () => {
                   placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
                   value={customKey}
                   onChange={(e) => setCustomKey(e.target.value)}
-                  className="w-full px-3 py-1.5 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded focus:outline-none focus:border-[#2C5B83]"
+                  className="w-full px-3 py-1.5 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                 />
               </div>
 
               <div className="flex items-center justify-between pt-1">
-                <span className="text-[10px] text-[#707972]">
-                  Or in <code className="bg-[#F0EFEA] px-1 py-0.5 rounded">.env</code> as <code className="bg-[#F0EFEA] px-1 py-0.5 rounded">VITE_SUPABASE_URL</code>
+                <span className="text-[10px] text-[#64748B]">
+                  Or in <code className="bg-[#F1F5F9] px-1 py-0.5 rounded">.env</code> as <code className="bg-[#F1F5F9] px-1 py-0.5 rounded">VITE_SUPABASE_URL</code>
                 </span>
                 <button
                   type="submit"
-                  className="px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded text-xs font-medium cursor-pointer"
+                  className="px-3 py-1.5 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded text-xs font-medium cursor-pointer"
                 >
                   Save Credentials
                 </button>
@@ -315,38 +313,31 @@ export const LoginPage: React.FC = () => {
           </div>
         )}
 
-        {/* SUCCESS LOGIN ANIMATION SCREEN */}
+        {/* SUCCESS LOGIN SCREEN */}
         {isSuccessAnimating && (
-          <div className="bg-white rounded-lg border border-[#E8E6E1] p-8 space-y-6 shadow-sm animate-pop-in text-center">
-            <div className="relative flex items-center justify-center py-2">
-              <div className="w-20 h-20 rounded-full bg-[#EBF5EE] border-2 border-[#2E6F56] flex items-center justify-center animate-success-pop shadow-md z-10">
-                <CheckCircle2 className="w-10 h-10 text-[#2E6F56]" />
-              </div>
-              <div className="absolute w-20 h-20 rounded-full border-2 border-[#2E6F56]/40 animate-ripple-ring pointer-events-none" />
-              <div
-                className="absolute w-20 h-20 rounded-full border-2 border-[#2E6F56]/20 animate-ripple-ring pointer-events-none"
-                style={{ animationDelay: '0.45s' }}
-              />
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-8 space-y-5 shadow-2xs text-center animate-fade-in">
+            <div className="w-12 h-12 rounded-full bg-[#ECFDF5] border border-[#A7F3D0] flex items-center justify-center text-[#059669] mx-auto">
+              <CheckCircle2 className="w-6 h-6 text-[#059669]" />
             </div>
 
-            <div className="space-y-1.5 animate-fade-slide-up">
-              <h3 className="text-xl font-editorial font-bold text-[#1A2430]">
-                Logged In Successfully
+            <div className="space-y-1">
+              <h3 className="text-base font-semibold text-[#0F172A]">
+                Authentication Successful
               </h3>
-              <p className="text-xs text-[#707972]">
-                Welcome, <span className="font-semibold text-[#1A2430]">{successProfile?.name}</span>
+              <p className="text-xs text-[#64748B]">
+                Welcome, <span className="font-semibold text-[#0F172A]">{successProfile?.name}</span>
               </p>
-              <span className="inline-block mt-1 text-[11px] px-3 py-0.5 rounded-full bg-[#F4F8FA] text-[#2C5B83] border border-[#D2E0EC] font-medium">
+              <span className="inline-block mt-1 text-[11px] px-2.5 py-0.5 rounded bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-medium">
                 {successProfile?.roleTitle}
               </span>
             </div>
 
-            <div className="space-y-1 pt-2">
-              <div className="w-full bg-[#F0EFEA] h-1.5 rounded-full overflow-hidden">
-                <div className="h-full bg-[#2E6F56] animate-launch-progress rounded-full" />
+            <div className="space-y-1.5 pt-2">
+              <div className="w-full bg-[#F1F5F9] h-1.5 rounded-full overflow-hidden">
+                <div className="h-full bg-[#059669] animate-pulse rounded-full" style={{ width: '85%' }} />
               </div>
-              <p className="text-[10px] text-[#707972] font-mono">
-                Launching workspace environment...
+              <p className="text-[10px] text-[#64748B] font-mono">
+                Launching telemetry workspace...
               </p>
             </div>
           </div>
@@ -354,16 +345,16 @@ export const LoginPage: React.FC = () => {
 
         {/* STEP 1: CHOOSE ROLE */}
         {step === 1 && !isSuccessAnimating && (
-          <div className="bg-white rounded-lg border border-[#E8E6E1] p-6 space-y-4 shadow-sm animate-pop-in">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-6 space-y-4 shadow-2xs">
             <div>
-              <h2 className="text-base font-editorial font-bold text-[#1A2430]">
-                Choose your role
+              <h2 className="text-sm font-semibold text-[#0F172A]">
+                Select user role
               </h2>
             </div>
 
-            {/* 3 Streamlined Role Cards without Details */}
+            {/* 3 Streamlined Role Cards */}
             <div className="space-y-2.5">
-              {roles.map((item, index) => {
+              {roles.map((item) => {
                 const Icon = item.icon;
                 const isSelected = selectedRole === item.role;
 
@@ -371,23 +362,23 @@ export const LoginPage: React.FC = () => {
                   <div
                     key={item.role}
                     onClick={() => handleRoleSelect(item.role)}
-                    className={`animate-pop-child-${index + 1} p-3.5 rounded-lg border transition-all cursor-pointer flex items-center justify-between hover:scale-[1.01] active:scale-[0.99] ${
+                    className={`p-3.5 rounded-lg border transition-colors cursor-pointer flex items-center justify-between ${
                       isSelected
-                        ? 'border-[#2C5B83] bg-[#F4F8FA] shadow-xs ring-1 ring-[#2C5B83]/20'
-                        : 'border-[#E8E6E1] bg-white hover:bg-[#FAF9F7]'
+                        ? 'border-[#2563EB] bg-[#EFF6FF] shadow-2xs'
+                        : 'border-[#E2E8F0] bg-white hover:bg-[#F8FAFC]'
                     }`}
                   >
                     <div className="flex items-center gap-3">
                       <div
-                        className={`w-9 h-9 rounded-md flex items-center justify-center flex-shrink-0 border transition-colors ${
+                        className={`w-8 h-8 rounded flex items-center justify-center flex-shrink-0 border transition-colors ${
                           isSelected
-                            ? 'bg-[#1A2838] text-white border-[#1A2838]'
-                            : 'bg-[#F2ECE1] text-[#707972] border-[#E8E6E1]'
+                            ? 'bg-[#0F172A] text-white border-[#0F172A]'
+                            : 'bg-[#F1F5F9] text-[#64748B] border-[#E2E8F0]'
                         }`}
                       >
                         <Icon className="w-4 h-4" />
                       </div>
-                      <span className="text-sm font-semibold text-[#1A2430]">
+                      <span className={`text-xs font-semibold ${isSelected ? 'text-[#2563EB]' : 'text-[#0F172A]'}`}>
                         {item.title}
                       </span>
                     </div>
@@ -395,7 +386,7 @@ export const LoginPage: React.FC = () => {
                     <div
                       className={`w-4 h-4 rounded-full border flex items-center justify-center flex-shrink-0 transition-colors ${
                         isSelected
-                          ? 'border-[#2C5B83] bg-[#2C5B83]'
+                          ? 'border-[#2563EB] bg-[#2563EB]'
                           : 'border-[#CBD5E1] bg-white'
                       }`}
                     >
@@ -411,7 +402,7 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleContinueToLogin}
-                className="flex-1 py-2.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold border border-[#1A2838] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm hover:shadow"
+                className="flex-1 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
               >
                 <span>Continue as {currentRoleInfo.title}</span>
                 <ArrowRight className="w-3.5 h-3.5" />
@@ -419,7 +410,7 @@ export const LoginPage: React.FC = () => {
               <button
                 type="button"
                 onClick={handleQuickDemoSignIn}
-                className="py-2.5 px-4 bg-[#FAF9F7] hover:bg-[#F2ECE1] text-[#4A5568] hover:text-[#1A2430] rounded-md text-xs font-medium border border-[#E2DFD8] transition-colors cursor-pointer"
+                className="py-2 px-3.5 bg-white hover:bg-[#F8FAFC] text-[#475569] hover:text-[#0F172A] rounded text-xs font-medium border border-[#CBD5E1] transition-colors cursor-pointer shadow-2xs"
                 title="Instant preview"
               >
                 Instant Preview
@@ -430,28 +421,28 @@ export const LoginPage: React.FC = () => {
 
         {/* STEP 2: LOG IN / CREATE ACCOUNT WITH SUPABASE */}
         {step === 2 && !isSuccessAnimating && (
-          <div className="bg-white rounded-lg border border-[#E8E6E1] p-6 space-y-5 shadow-sm animate-pop-in">
+          <div className="bg-white rounded-lg border border-[#E2E8F0] p-6 space-y-4 shadow-2xs">
             {/* Top Navigation & Selected Role Badge */}
-            <div className="flex items-center justify-between pb-3 border-b border-[#F0EFEA]">
+            <div className="flex items-center justify-between pb-3 border-b border-[#E2E8F0]">
               <button
                 type="button"
                 onClick={handleBackToRoles}
-                className="flex items-center gap-1.5 text-xs text-[#707972] hover:text-[#1A2430] font-medium cursor-pointer"
+                className="flex items-center gap-1.5 text-xs text-[#64748B] hover:text-[#0F172A] font-medium cursor-pointer"
               >
                 <ArrowLeft className="w-3.5 h-3.5" />
                 <span>Change Role</span>
               </button>
 
-              <div className="flex items-center gap-2 px-2.5 py-1 rounded-md bg-[#FAF9F7] border border-[#E8E6E1]">
-                <currentRoleInfo.icon className="w-3.5 h-3.5 text-[#2C5B83]" />
-                <span className="text-xs font-semibold text-[#1A2430]">
+              <div className="flex items-center gap-2 px-2.5 py-1 rounded bg-[#F8FAFC] border border-[#E2E8F0]">
+                <currentRoleInfo.icon className="w-3.5 h-3.5 text-[#2563EB]" />
+                <span className="text-xs font-semibold text-[#0F172A]">
                   {currentRoleInfo.title}
                 </span>
               </div>
             </div>
 
             {/* Auth Mode Toggle (Sign In vs Register) */}
-            <div className="flex rounded-md bg-[#F2ECE1] p-1 border border-[#E8E6E1]">
+            <div className="flex rounded-md bg-[#F1F5F9] p-0.5 border border-[#E2E8F0]">
               <button
                 type="button"
                 onClick={() => {
@@ -460,8 +451,8 @@ export const LoginPage: React.FC = () => {
                 }}
                 className={`flex-1 py-1.5 text-xs font-semibold rounded transition-colors cursor-pointer ${
                   authMode === 'signin'
-                    ? 'bg-white text-[#1A2430] shadow-xs'
-                    : 'text-[#707972] hover:text-[#1A2430]'
+                    ? 'bg-white text-[#0F172A] shadow-xs'
+                    : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 Sign In
@@ -474,8 +465,8 @@ export const LoginPage: React.FC = () => {
                 }}
                 className={`flex-1 py-1.5 text-xs font-semibold rounded transition-colors cursor-pointer ${
                   authMode === 'signup'
-                    ? 'bg-white text-[#1A2430] shadow-xs'
-                    : 'text-[#707972] hover:text-[#1A2430]'
+                    ? 'bg-white text-[#0F172A] shadow-xs'
+                    : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
                 Create Account
@@ -484,14 +475,14 @@ export const LoginPage: React.FC = () => {
 
             {/* Error & Success Feedback Alerts */}
             {errorMessage && (
-              <div className="p-3 bg-[#FDF2F2] border border-[#F8D7DA] text-[#B2463F] rounded-md text-xs flex items-start gap-2">
+              <div className="p-3 bg-[#FEF2F2] border border-[#FECACA] text-[#DC2626] rounded text-xs flex items-start gap-2">
                 <AlertCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">{errorMessage}</div>
               </div>
             )}
 
             {successNotice && (
-              <div className="p-3 bg-[#EBF5EE] border border-[#CCE6D5] text-[#2E6F56] rounded-md text-xs flex items-start gap-2">
+              <div className="p-3 bg-[#ECFDF5] border border-[#A7F3D0] text-[#059669] rounded text-xs flex items-start gap-2">
                 <CheckCircle2 className="w-4 h-4 flex-shrink-0 mt-0.5" />
                 <div className="flex-1">{successNotice}</div>
               </div>
@@ -501,7 +492,7 @@ export const LoginPage: React.FC = () => {
             <form onSubmit={handleAuthSubmit} className="space-y-3.5">
               {authMode === 'signup' && (
                 <div>
-                  <label className="block text-xs font-medium text-[#4A5568] mb-1">
+                  <label className="block text-xs font-medium text-[#475569] mb-1">
                     Full Name
                   </label>
                   <input
@@ -510,46 +501,46 @@ export const LoginPage: React.FC = () => {
                     placeholder="e.g. Dr. Faizul Rahman"
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded-md focus:outline-none focus:border-[#2C5B83] text-[#1A2430]"
+                    className="w-full px-3 py-2 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                   />
                 </div>
               )}
 
               <div>
-                <label className="block text-xs font-medium text-[#4A5568] mb-1">
+                <label className="block text-xs font-medium text-[#475569] mb-1">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#707972]" />
+                  <Mail className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
                   <input
                     type="email"
                     required
                     placeholder={currentRoleInfo.defaultEmail}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className="w-full pl-9 pr-3 py-2 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded-md focus:outline-none focus:border-[#2C5B83] text-[#1A2430]"
+                    className="w-full pl-9 pr-3 py-2 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                   />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-[#4A5568] mb-1">
+                <label className="block text-xs font-medium text-[#475569] mb-1">
                   Password
                 </label>
                 <div className="relative">
-                  <KeyRound className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#707972]" />
+                  <KeyRound className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-[#94A3B8]" />
                   <input
                     type={showPassword ? 'text' : 'password'}
                     required
                     placeholder="Enter account password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full pl-9 pr-9 py-2 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded-md focus:outline-none focus:border-[#2C5B83] text-[#1A2430]"
+                    className="w-full pl-9 pr-9 py-2 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#707972] hover:text-[#1A2430] cursor-pointer"
+                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#94A3B8] hover:text-[#0F172A] cursor-pointer"
                   >
                     {showPassword ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
                   </button>
@@ -558,7 +549,7 @@ export const LoginPage: React.FC = () => {
 
               {authMode === 'signup' && (
                 <div>
-                  <label className="block text-xs font-medium text-[#4A5568] mb-1">
+                  <label className="block text-xs font-medium text-[#475569] mb-1">
                     Confirm Password
                   </label>
                   <input
@@ -567,20 +558,20 @@ export const LoginPage: React.FC = () => {
                     placeholder="Repeat password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded-md focus:outline-none focus:border-[#2C5B83] text-[#1A2430]"
+                    className="w-full px-3 py-2 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A]"
                   />
                 </div>
               )}
 
               {authMode === 'signup' && selectedRole === 'resident' && (
                 <div>
-                  <label className="block text-xs font-medium text-[#4A5568] mb-1">
+                  <label className="block text-xs font-medium text-[#475569] mb-1">
                     Assigned Residence / Hostel
                   </label>
                   <select
                     value={assignedBuildingId}
                     onChange={(e) => setAssignedBuildingId(e.target.value)}
-                    className="w-full px-3 py-2 text-xs bg-[#FAF9F7] border border-[#E2DFD8] rounded-md focus:outline-none focus:border-[#2C5B83] text-[#1A2430]"
+                    className="w-full px-3 py-2 text-xs bg-white border border-[#CBD5E1] rounded focus:outline-none focus:border-[#2563EB] text-[#0F172A] cursor-pointer"
                   >
                     {buildings.map((b) => (
                       <option key={b.id} value={b.id}>
@@ -596,13 +587,13 @@ export const LoginPage: React.FC = () => {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="w-full py-2.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-semibold border border-[#1A2838] transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-sm disabled:opacity-70"
+                  className="w-full py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded text-xs font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-2xs disabled:opacity-70"
                 >
                   {isLoading ? (
                     <span className="inline-block w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
                   ) : (
                     <>
-                      <ShieldCheck className="w-4 h-4 text-[#89B3D9]" />
+                      <ShieldCheck className="w-4 h-4 text-[#93C5FD]" />
                       <span>
                         {authMode === 'signin'
                           ? `Sign In as ${currentRoleInfo.title}`
@@ -614,14 +605,13 @@ export const LoginPage: React.FC = () => {
               </div>
             </form>
             {/* Instant Preview */}
-            <div className="pt-2 border-t border-[#F0EFEA] flex items-center justify-center">
+            <div className="pt-2 border-t border-[#E2E8F0] flex items-center justify-center">
               <button
                 type="button"
                 onClick={handleQuickDemoSignIn}
-                className="text-xs text-[#2C5B83] hover:underline font-medium cursor-pointer flex items-center gap-1.5"
+                className="text-xs text-[#2563EB] hover:underline font-medium cursor-pointer flex items-center gap-1.5"
               >
-                <Sparkles className="w-3.5 h-3.5 text-[#B27B2A]" />
-                <span>Instant Preview</span>
+                <span>Instant Demo Access →</span>
               </button>
             </div>
           </div>

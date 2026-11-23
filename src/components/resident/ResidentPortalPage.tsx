@@ -4,19 +4,29 @@ import { ResidentIssueType } from '../../types';
 import {
   CheckCircle2,
   Droplet,
+  Droplets,
+  Pipette,
+  ShowerHead,
+  AlertTriangle,
   Send,
   Clock,
   Wrench,
   Building2,
 } from 'lucide-react';
 
-const COMMON_ISSUES: Array<{ label: string; value: ResidentIssueType; icon: string }> = [
-  { label: 'Running Toilet', value: 'Running Toilet Cistern', icon: '🚽' },
-  { label: 'Dripping Tap', value: 'Dripping Sink Tap', icon: '🚰' },
-  { label: 'Shower Leak', value: 'Leaking Shower Pipe', icon: '🚿' },
-  { label: 'Ceiling Seep', value: 'Water Seeping from Ceiling', icon: '💧' },
-  { label: 'Pipe Breach', value: 'Outdoor Pipe Breach', icon: '⚠️' },
-  { label: 'Other Defect', value: 'Other', icon: '🔧' },
+interface CommonIssue {
+  label: string;
+  value: ResidentIssueType;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
+const COMMON_ISSUES: CommonIssue[] = [
+  { label: 'Running Toilet', value: 'Running Toilet Cistern', icon: Droplets },
+  { label: 'Dripping Tap', value: 'Dripping Sink Tap', icon: Pipette },
+  { label: 'Shower Leak', value: 'Leaking Shower Pipe', icon: ShowerHead },
+  { label: 'Ceiling Seep', value: 'Water Seeping from Ceiling', icon: Droplet },
+  { label: 'Pipe Breach', value: 'Outdoor Pipe Breach', icon: AlertTriangle },
+  { label: 'Other Defect', value: 'Other', icon: Wrench },
 ];
 
 export const ResidentPortalPage: React.FC = () => {
@@ -94,13 +104,13 @@ export const ResidentPortalPage: React.FC = () => {
   return (
     <div className="space-y-6 w-full">
       {/* Page Header with Residence Selector */}
-      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#0F172A] tracking-tight">
+          <h1 className="text-xl font-semibold text-[#0F172A] tracking-tight">
             Resident Water Portal
           </h1>
-          <p className="text-xs text-[#64748B] mt-1">
-            Report water leaks and track ongoing plumbing maintenance for your residence.
+          <p className="text-xs text-[#64748B] mt-0.5">
+            Report leaking taps or running fixtures and track repair progress for your dorm.
           </p>
         </div>
 
@@ -109,7 +119,7 @@ export const ResidentPortalPage: React.FC = () => {
           <select
             value={selectedBuildingId}
             onChange={(e) => setSelectedBuildingId(e.target.value)}
-            className="text-xs font-medium bg-white text-[#0F172A] px-3 py-2 rounded-md border border-[#E2E8F0] outline-none cursor-pointer focus:border-[#2563EB]"
+            className="text-xs font-semibold bg-[#F8FAFC] text-[#0F172A] px-3 py-2 rounded-md border border-[#CBD5E1] outline-none cursor-pointer focus:border-[#2563EB]"
           >
             {buildings.map((b) => (
               <option key={b.id} value={b.id}>
@@ -120,30 +130,30 @@ export const ResidentPortalPage: React.FC = () => {
         </div>
       </div>
 
-      {/* 1. PROMINENT REPORT WATER LEAK SECTION (BIGGEST PART) */}
-      <div className="bg-white p-6 sm:p-7 rounded-xl border-2 border-[#2563EB]/40 shadow-xs space-y-5">
+      {/* 1. REPORT WATER LEAK SECTION */}
+      <div className="bg-white p-6 rounded-lg border border-[#E2E8F0] shadow-2xs space-y-5">
         <div className="border-b border-[#E2E8F0] pb-4 flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-lg bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] flex-shrink-0">
-              <Droplet className="w-6 h-6 fill-[#2563EB]/20" />
+            <div className="w-10 h-10 rounded-md bg-[#EFF6FF] border border-[#BFDBFE] flex items-center justify-center text-[#2563EB] flex-shrink-0">
+              <Droplets className="w-5 h-5 text-[#2563EB]" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-[#0F172A] flex items-center gap-2">
-                <span>Report a Dripping Tap or Water Leak</span>
+              <h2 className="text-base font-semibold text-[#0F172A]">
+                Report a Plumbing Leak or Fixture Issue
               </h2>
               <p className="text-xs text-[#64748B] mt-0.5">
                 Notice a toilet cistern running, tap dripping, or dampness? Submit a ticket directly to facilities plumbing dispatch.
               </p>
             </div>
           </div>
-          <span className="text-[11px] font-mono px-2.5 py-1 rounded-md bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-medium">
+          <span className="text-[11px] font-mono px-2.5 py-1 rounded bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-medium">
             Fast Track Dispatch
           </span>
         </div>
 
         {reportSuccess && (
-          <div className="p-4 bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E3A8A] rounded-md text-xs font-medium flex items-center gap-2.5 animate-in fade-in">
-            <CheckCircle2 className="w-5 h-5 text-[#2563EB] flex-shrink-0" />
+          <div className="p-3.5 bg-[#EFF6FF] border border-[#BFDBFE] text-[#1E3A8A] rounded text-xs font-medium flex items-center gap-2.5 animate-in fade-in">
+            <CheckCircle2 className="w-4 h-4 text-[#2563EB] flex-shrink-0" />
             <span>
               Ticket successfully dispatched. Campus plumbing repair worker has been alerted for {selectedBuilding.name}.
             </span>
@@ -158,18 +168,19 @@ export const ResidentPortalPage: React.FC = () => {
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {COMMON_ISSUES.map((issue) => {
               const isSelected = issueType === issue.value;
+              const Icon = issue.icon;
               return (
                 <button
                   type="button"
                   key={issue.value}
                   onClick={() => setIssueType(issue.value)}
-                  className={`p-2.5 rounded-lg border text-left transition-all cursor-pointer flex flex-col items-center justify-center text-center gap-1.5 ${
+                  className={`p-3 rounded-md border text-left transition-colors cursor-pointer flex flex-col items-center justify-center text-center gap-2 ${
                     isSelected
-                      ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB] font-semibold ring-1 ring-[#2563EB]'
-                      : 'border-[#E2E8F0] bg-[#F8FAFC] hover:bg-white text-[#0F172A]'
+                      ? 'border-[#2563EB] bg-[#EFF6FF] text-[#2563EB] font-semibold'
+                      : 'border-[#E2E8F0] bg-[#F8FAFC] hover:bg-white text-[#475569] hover:text-[#0F172A]'
                   }`}
                 >
-                  <span className="text-xl">{issue.icon}</span>
+                  <Icon className={`w-5 h-5 ${isSelected ? 'text-[#2563EB]' : 'text-[#64748B]'}`} />
                   <span className="text-xs">{issue.label}</span>
                 </button>
               );
@@ -191,7 +202,7 @@ export const ResidentPortalPage: React.FC = () => {
                 value={reporterName}
                 onChange={(e) => setReporterName(e.target.value)}
                 placeholder="Enter reporter name"
-                className="w-full text-xs px-3.5 py-2.5 border border-[#E2E8F0] rounded-md outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A]"
+                className="w-full text-xs px-3 py-2 border border-[#CBD5E1] rounded outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A]"
               />
             </div>
 
@@ -203,7 +214,7 @@ export const ResidentPortalPage: React.FC = () => {
               <select
                 value={floor}
                 onChange={(e) => setFloor(parseInt(e.target.value) || 1)}
-                className="w-full text-xs px-3.5 py-2.5 border border-[#E2E8F0] rounded-md outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A] cursor-pointer"
+                className="w-full text-xs px-3 py-2 border border-[#CBD5E1] rounded outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A] cursor-pointer"
               >
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((f) => (
                   <option key={f} value={f}>
@@ -221,7 +232,7 @@ export const ResidentPortalPage: React.FC = () => {
               <select
                 value={urgency}
                 onChange={(e) => setUrgency(e.target.value as any)}
-                className="w-full text-xs px-3.5 py-2.5 border border-[#E2E8F0] rounded-md outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A] cursor-pointer"
+                className="w-full text-xs px-3 py-2 border border-[#CBD5E1] rounded outline-none focus:border-[#2563EB] bg-white font-medium text-[#0F172A] cursor-pointer"
               >
                 <option value="Low">Low (Slow or intermittent drip)</option>
                 <option value="Medium">Medium (Steady flow / dripping)</option>
@@ -241,7 +252,7 @@ export const ResidentPortalPage: React.FC = () => {
               value={location}
               onChange={(e) => setLocation(e.target.value)}
               placeholder="e.g. Level 3 Washroom - Cubicle 2 or Pantry Left Sink"
-              className="w-full text-xs px-3.5 py-2.5 border border-[#E2E8F0] rounded-md outline-none focus:border-[#2563EB] bg-white text-[#0F172A]"
+              className="w-full text-xs px-3 py-2 border border-[#CBD5E1] rounded outline-none focus:border-[#2563EB] bg-white text-[#0F172A]"
             />
           </div>
 
@@ -254,16 +265,16 @@ export const ResidentPortalPage: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Describe symptoms, e.g. continuous hiss all night, loose valve handle, water pooling on tile floor..."
-              className="w-full text-xs px-3.5 py-2 border border-[#E2E8F0] rounded-md outline-none focus:border-[#2563EB] bg-white text-[#0F172A]"
+              className="w-full text-xs px-3 py-2 border border-[#CBD5E1] rounded outline-none focus:border-[#2563EB] bg-white text-[#0F172A]"
             />
           </div>
 
           <div className="pt-2 flex items-center justify-end">
             <button
               type="submit"
-              className="w-full sm:w-auto px-6 py-2.5 bg-[#0F2744] hover:bg-[#1E3A5F] text-white text-xs font-semibold rounded-md transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-xs"
+              className="w-full sm:w-auto px-5 py-2 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-medium rounded transition-colors flex items-center justify-center gap-2 cursor-pointer shadow-2xs"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-3.5 h-3.5" />
               <span>Submit Leak Report</span>
             </button>
           </div>
@@ -303,8 +314,8 @@ export const ResidentPortalPage: React.FC = () => {
                       <span
                         className={`text-[10px] font-mono px-2 py-0.5 rounded font-medium ${
                           ins.priorityTier === 'Critical'
-                            ? 'bg-[#FBECEC] text-[#B54747] border border-[#EDBEBE]'
-                            : 'bg-[#FAF3E7] text-[#B9822B] border border-[#ECD9B7]'
+                            ? 'bg-[#FEF2F2] text-[#DC2626] border border-[#FECACA]'
+                            : 'bg-[#FFFBEB] text-[#D97706] border border-[#FDE68A]'
                         }`}
                       >
                         {ins.priorityTier}
@@ -319,7 +330,7 @@ export const ResidentPortalPage: React.FC = () => {
                     {ins.urgencyReason}
                   </p>
 
-                  <div className="flex items-center justify-between text-[11px] text-[#64748B] pt-1 border-t border-[#E2E8F0]/60">
+                  <div className="flex items-center justify-between text-[11px] text-[#64748B] pt-1 border-t border-[#E2E8F0]">
                     <span>Plumber: <strong className="text-[#0F172A] font-medium">{ins.assignedInspector}</strong></span>
                     <span className="font-mono">Target: {ins.dueDate}</span>
                   </div>
@@ -359,12 +370,12 @@ export const ResidentPortalPage: React.FC = () => {
                   </div>
 
                   <span
-                    className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded ${
+                    className={`text-[10px] font-mono font-medium px-2 py-0.5 rounded border ${
                       r.status === 'Resolved'
-                        ? 'bg-[#EFF6FF] text-[#2D6A4F] border border-[#BFDBFE]'
+                        ? 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
                         : r.status === 'Assigned'
-                        ? 'bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE]'
-                        : 'bg-[#FAF3E7] text-[#B9822B] border border-[#ECD9B7]'
+                        ? 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE]'
+                        : 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
                     }`}
                   >
                     {r.status}

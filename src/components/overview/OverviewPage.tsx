@@ -200,11 +200,10 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
   const renderAnomalyDot = (props: any) => {
     const { cx, cy, payload } = props;
     if (!payload || !payload.hasAnomaly) return null;
-    const dotColor = themeMode === 'handcrafted' ? '#B2463F' : '#B54747';
     return (
       <g key={`anomaly-dot-${payload.date}`}>
-        <circle cx={cx} cy={cy} r={6} fill={dotColor} fillOpacity={0.2} />
-        <circle cx={cx} cy={cy} r={3.5} fill={dotColor} stroke="#FFFFFF" strokeWidth={1.5} />
+        <circle cx={cx} cy={cy} r={6} fill="#DC2626" fillOpacity={0.15} />
+        <circle cx={cx} cy={cy} r={3.5} fill="#DC2626" stroke="#FFFFFF" strokeWidth={1.5} />
       </g>
     );
   };
@@ -232,51 +231,47 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
 
   return (
     <div className="space-y-6">
-      {/* 1. Header & Live Telemetry Controls */}
-      <div className="flex flex-wrap items-center justify-between gap-4 bg-white p-4 sm:p-5 rounded-lg border border-[#E8E4DC] shadow-xs">
-        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
-          <h1 className="text-xl sm:text-2xl font-editorial font-bold text-[#1A2430] tracking-tight">
-            Dashboard Overview
-          </h1>
-
-          {/* Time Window Filter on the left */}
-          <div className="flex items-center bg-[#F4F2EC] p-0.5 rounded-md text-xs font-medium border border-[#E8E4DC]">
+      {/* 1. Time Filter & Live Sync Toolbar (Clean & unified) */}
+      <div className="flex flex-wrap items-center justify-between gap-3 bg-white px-4 py-2.5 rounded-lg border border-[#E2E8F0] shadow-xs">
+        <div className="flex items-center gap-2.5">
+          <span className="text-xs font-semibold text-[#0F172A]">Time Range:</span>
+          <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
             <button
               onClick={() => setDateFilter('today')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === 'today'
-                  ? 'bg-white text-[#1A2430] shadow-xs font-semibold'
-                  : 'text-[#707972] hover:text-[#1A2430]'
+                  ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
               Today
             </button>
             <button
               onClick={() => setDateFilter('7d')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === '7d'
-                  ? 'bg-white text-[#1A2430] shadow-xs font-semibold'
-                  : 'text-[#707972] hover:text-[#1A2430]'
+                  ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
               7 Days
             </button>
             <button
               onClick={() => setDateFilter('30d')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === '30d'
-                  ? 'bg-white text-[#1A2430] shadow-xs font-semibold'
-                  : 'text-[#707972] hover:text-[#1A2430]'
+                  ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
               30 Days
             </button>
             <button
               onClick={() => setDateFilter('all')}
-              className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
+              className={`px-3 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === 'all'
-                  ? 'bg-white text-[#1A2430] shadow-xs font-semibold'
-                  : 'text-[#707972] hover:text-[#1A2430]'
+                  ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                  : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
               All Time
@@ -284,91 +279,84 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
           </div>
         </div>
 
-        <div className="flex items-center gap-2.5">
-          <span className="inline-flex items-center gap-1.5 text-xs text-[#2E6F56] font-medium bg-[#F0FDF4] border border-[#BBF7D0] px-2.5 py-1 rounded-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#16A34A] animate-pulse" />
-            Live Sync
+        <div className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 text-xs text-[#059669] font-medium bg-[#ECFDF5] border border-[#A7F3D0] px-2.5 py-1 rounded-md">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#10B981]" />
+            <span>Live Telemetry Active</span>
           </span>
-          <button
-            onClick={() => onOpenCreateInspection()}
-            className="flex items-center gap-1.5 px-3 py-1.5 bg-[#1A2838] hover:bg-[#2A3C50] text-white rounded-md text-xs font-medium border border-[#1A2838] transition-colors cursor-pointer shadow-sm"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>Dispatch Inspection</span>
-          </button>
         </div>
       </div>
 
-      {/* 2. Operational Health Status Banner (Instant situation awareness) */}
+      {/* 2. Operational Health Status Banner (Clear & action-oriented) */}
       {criticalAlertsCount > 0 || highAlertsCount > 0 ? (
-        <div className="bg-[#FEF2F2] border border-[#FECACA] rounded-md p-4 flex flex-wrap items-center justify-between gap-3">
+        <div className="bg-[#FEF2F2] border border-[#FECACA] rounded-lg p-4 flex flex-wrap items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-3">
-            <div className="p-2 bg-[#FEE2E2] rounded-md text-[#B54747] flex-shrink-0">
+            <div className="p-2 bg-[#FEE2E2] rounded-md text-[#DC2626] flex-shrink-0">
               <ShieldAlert className="w-5 h-5" />
             </div>
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <span className="text-sm font-semibold text-[#991B1B]">
-                  Action Required: {buildingsNeedingAttention.length} facilities flagged with active leaks
+                  Action Needed: {buildingsNeedingAttention.length} facilities flagged with active leaks
                 </span>
-                <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-medium bg-[#B54747] text-white">
+                <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-medium bg-[#DC2626] text-white">
                   {criticalAlertsCount} Critical
                 </span>
                 {highAlertsCount > 0 && (
-                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-medium bg-[#B9822B] text-white">
+                  <span className="px-1.5 py-0.2 rounded text-[10px] font-mono font-medium bg-[#D97706] text-white">
                     {highAlertsCount} High Priority
                   </span>
                 )}
               </div>
               <p className="text-xs text-[#7F1D1D] mt-0.5">
-                Potential excess consumption estimated at +{Math.round(potentialExcessDailyLitres).toLocaleString()} L/day (approx. RM {potentialExcessDailyCostRM.toFixed(2)}/day).
+                Estimated water waste: ~{Math.round(potentialExcessDailyLitres).toLocaleString()} L/day (approx. RM {potentialExcessDailyCostRM.toFixed(2)}/day).
               </p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <button
               onClick={() => setCurrentPage('alerts')}
-              className="px-3 py-1.5 bg-[#991B1B] hover:bg-[#7F1D1D] text-white text-xs font-medium rounded-md transition-colors cursor-pointer shadow-sm"
+              className="px-3.5 py-1.5 bg-[#DC2626] hover:bg-[#B91C1C] text-white text-xs font-semibold rounded-md transition-colors cursor-pointer shadow-xs"
             >
-              Review Leak Alerts
+              Review Leak Alerts →
             </button>
           </div>
         </div>
       ) : (
-        <div className="bg-[#F0FDF4] border border-[#BBF7D0] rounded-md p-3.5 flex items-center justify-between gap-3">
+        <div className="bg-[#ECFDF5] border border-[#A7F3D0] rounded-lg p-3.5 flex items-center justify-between gap-3 shadow-xs">
           <div className="flex items-center gap-2.5">
-            <CheckCircle2 className="w-4 h-4 text-[#16A34A]" />
-            <span className="text-xs font-medium text-[#166534]">
-              All monitored facilities are operating within nominal baseline consumption.
+            <CheckCircle2 className="w-4 h-4 text-[#059669]" />
+            <span className="text-xs font-medium text-[#065F46]">
+              All monitored facilities are operating within normal baseline consumption.
             </span>
           </div>
-          <span className="text-[11px] font-mono text-[#15803D]">Telemetry Synchronized</span>
+          <span className="text-[11px] font-mono text-[#059669]">Telemetry Synchronized</span>
         </div>
       )}
 
-      {/* 3. Four Executive KPI Cards (With clear action links) */}
+      {/* 3. Four Executive KPI Cards (Simple language & 1-click action) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* KPI 1: Today's Consumption */}
         <div
           onClick={() => setCurrentPage('monitoring')}
-          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#2563EB]/60 hover:shadow-sm transition-all cursor-pointer group"
+          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#2563EB] hover:shadow-xs transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium mb-1.5">
-            <span>Flow Today</span>
+            <span>Today's Water Flow</span>
             <Droplets className="w-4 h-4 text-[#2563EB]" />
           </div>
           <div className="flex items-baseline gap-1.5">
             <span className="text-2xl font-mono tabular-nums font-semibold text-[#0F172A]">
               {Math.round(totalConsumptionTodayLitres).toLocaleString()}
             </span>
-            <span className="text-xs text-[#64748B]">L</span>
+            <span className="text-xs text-[#64748B]">Litres</span>
           </div>
           <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#F1F5F9] text-[11px]">
-            <span className={todayDiffLitres > 0 ? 'text-[#B9822B] font-medium' : 'text-[#64748B]'}>
-              {todayDiffLitres > 0 ? `+${Math.round(todayDiffLitres).toLocaleString()} L (+${consumptionDiffPercent}%)` : 'Within baseline'}
+            <span className={todayDiffLitres > 0 ? 'text-[#D97706] font-medium' : 'text-[#64748B]'}>
+              {todayDiffLitres > 0 ? `+${Math.round(todayDiffLitres).toLocaleString()} L (+${consumptionDiffPercent}%)` : 'Normal baseline'}
             </span>
             <span className="text-[#2563EB] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
-              <span>View</span>
+              <span>View chart</span>
               <ArrowUpRight className="w-3 h-3" />
             </span>
           </div>
@@ -377,23 +365,23 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
         {/* KPI 2: Active Alerts */}
         <div
           onClick={() => setCurrentPage('alerts')}
-          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#B54747]/60 hover:shadow-sm transition-all cursor-pointer group"
+          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#DC2626] hover:shadow-xs transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium mb-1.5">
-            <span>Active Alerts</span>
-            <AlertTriangle className="w-4 h-4 text-[#B54747]" />
+            <span>Active Leak Alerts</span>
+            <AlertTriangle className="w-4 h-4 text-[#DC2626]" />
           </div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-2xl font-mono tabular-nums font-semibold text-[#B54747]">
+            <span className="text-2xl font-mono tabular-nums font-semibold text-[#DC2626]">
               {activeAlerts.length}
             </span>
             <span className="text-xs text-[#64748B]">unresolved</span>
           </div>
           <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#F1F5F9] text-[11px]">
-            <span className="text-[#B54747] font-medium">
+            <span className="text-[#DC2626] font-medium">
               {criticalAlertsCount} Critical • {highAlertsCount} High
             </span>
-            <span className="text-[#B54747] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+            <span className="text-[#DC2626] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
               <span>Inspect</span>
               <ArrowUpRight className="w-3 h-3" />
             </span>
@@ -407,14 +395,14 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
             const el = document.getElementById('prioritisation-table');
             if (el) el.scrollIntoView({ behavior: 'smooth' });
           }}
-          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#B9822B]/60 hover:shadow-sm transition-all cursor-pointer group"
+          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#D97706] hover:shadow-xs transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium mb-1.5">
-            <span>Potential Excess</span>
-            <Flame className="w-4 h-4 text-[#B9822B]" />
+            <span>Estimated Water Waste</span>
+            <Flame className="w-4 h-4 text-[#D97706]" />
           </div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-2xl font-mono tabular-nums font-semibold text-[#B9822B]">
+            <span className="text-2xl font-mono tabular-nums font-semibold text-[#D97706]">
               +{Math.round(potentialExcessDailyLitres).toLocaleString()}
             </span>
             <span className="text-xs text-[#64748B]">L / day</span>
@@ -423,7 +411,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
             <span className="text-[#64748B] font-mono">
               ≈ RM {potentialExcessDailyCostRM.toFixed(2)}/day
             </span>
-            <span className="text-[#B9822B] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+            <span className="text-[#D97706] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
               <span>Priorities</span>
               <ArrowUpRight className="w-3 h-3" />
             </span>
@@ -433,23 +421,23 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
         {/* KPI 4: Verified Post-Repair Savings */}
         <div
           onClick={() => setCurrentPage('maintenance')}
-          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#2D6A4F]/60 hover:shadow-sm transition-all cursor-pointer group"
+          className="bg-white p-5 rounded-lg border border-[#E2E8F0] hover:border-[#059669] hover:shadow-xs transition-all cursor-pointer group"
         >
           <div className="flex items-center justify-between text-xs text-[#64748B] font-medium mb-1.5">
-            <span>Verified Savings</span>
-            <TrendingDown className="w-4 h-4 text-[#2D6A4F]" />
+            <span>Verified Water Saved</span>
+            <TrendingDown className="w-4 h-4 text-[#059669]" />
           </div>
           <div className="flex items-baseline gap-1.5">
-            <span className="text-2xl font-mono tabular-nums font-semibold text-[#2D6A4F]">
+            <span className="text-2xl font-mono tabular-nums font-semibold text-[#059669]">
               +{Math.round(verifiedSavedLitresPerDay).toLocaleString()}
             </span>
             <span className="text-xs text-[#64748B]">L / day</span>
           </div>
           <div className="flex items-center justify-between mt-2 pt-2 border-t border-[#F1F5F9] text-[11px]">
-            <span className="text-[#2D6A4F] font-mono font-medium">
+            <span className="text-[#059669] font-mono font-medium">
               {verifiedRepairs.length} verified (RM {dailySavedRM.toFixed(2)}/day)
             </span>
-            <span className="text-[#2D6A4F] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
+            <span className="text-[#059669] group-hover:translate-x-0.5 transition-transform flex items-center gap-0.5">
               <span>History</span>
               <ArrowUpRight className="w-3 h-3" />
             </span>
@@ -457,73 +445,73 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
         </div>
       </div>
 
-      {/* 4. Consumption & Baseline Chart (With integrated time toggle & metric strip) */}
-      <div className="bg-white p-5 rounded-md border border-[#E2E8F0]">
+      {/* 4. Consumption & Baseline Chart */}
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-xs">
         <div className="flex flex-wrap items-center justify-between mb-3 gap-3">
           <div>
-            <h2 className="text-base font-semibold text-[#0F172A]">
-              Consumption & Demand Baseline
+            <h2 className="text-sm font-semibold text-[#0F172A]">
+              Water Consumption & Baseline Trend
             </h2>
             <p className="text-xs text-[#64748B] mt-0.5">
-              Hourly accumulated meter flow vs expected baseline across campus
+              Hourly campus water consumption compared against expected normal usage
             </p>
           </div>
 
-          {/* Time Filter Directly on Chart Card */}
-          <div className="flex items-center bg-[#F8FAFC] p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
+          {/* Time Filter on Chart */}
+          <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
             <button
               onClick={() => setDateFilter('today')}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === 'today'
-                  ? 'bg-white text-[#0F172A] font-semibold border border-[#E2E8F0] shadow-2xs'
+                  ? 'bg-white text-[#0F172A] font-semibold shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
-              Today (24h)
+              Today
             </button>
             <button
               onClick={() => setDateFilter('7d')}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === '7d'
-                  ? 'bg-white text-[#0F172A] font-semibold border border-[#E2E8F0] shadow-2xs'
+                  ? 'bg-white text-[#0F172A] font-semibold shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
-              Last 7 Days
+              7 Days
             </button>
             <button
               onClick={() => setDateFilter('30d')}
               className={`px-2.5 py-1 rounded transition-colors cursor-pointer ${
                 dateFilter === '30d'
-                  ? 'bg-white text-[#0F172A] font-semibold border border-[#E2E8F0] shadow-2xs'
+                  ? 'bg-white text-[#0F172A] font-semibold shadow-xs'
                   : 'text-[#64748B] hover:text-[#0F172A]'
               }`}
             >
-              Last 30 Days
+              30 Days
             </button>
           </div>
         </div>
 
-        {/* Quick Summary Pill Bar above graph */}
+        {/* Quick Summary Strip above graph */}
         <div className="flex flex-wrap items-center gap-4 text-xs font-mono py-2 px-3 bg-[#F8FAFC] rounded border border-[#E2E8F0] mb-4 text-[#64748B]">
           <div>
-            <span>Actual Volume: </span>
+            <span>Water Used: </span>
             <span className="font-semibold text-[#0F172A]">{Math.round(chartMetrics.totalActual).toLocaleString()} L</span>
           </div>
           <div>
-            <span>Baseline: </span>
+            <span>Normal Baseline: </span>
             <span className="font-semibold text-[#0F172A]">{Math.round(chartMetrics.totalExpected).toLocaleString()} L</span>
           </div>
           <div>
-            <span>Net Variance: </span>
-            <span className={`font-semibold ${chartMetrics.variancePct > 5 ? 'text-[#B9822B]' : 'text-[#2D6A4F]'}`}>
+            <span>Difference: </span>
+            <span className={`font-semibold ${chartMetrics.variancePct > 5 ? 'text-[#D97706]' : 'text-[#059669]'}`}>
               {chartMetrics.variancePct > 0 ? `+${chartMetrics.variancePct}%` : `${chartMetrics.variancePct}%`}
             </span>
           </div>
           {chartMetrics.anomalyPointsCount > 0 && (
-            <div className="text-[#B54747] font-semibold flex items-center gap-1 font-sans">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#B54747]" />
-              <span>{chartMetrics.anomalyPointsCount} Anomaly Points Flagged</span>
+            <div className="text-[#DC2626] font-semibold flex items-center gap-1 font-sans">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#DC2626]" />
+              <span>{chartMetrics.anomalyPointsCount} Anomaly Spikes Detected</span>
             </div>
           )}
         </div>
@@ -532,13 +520,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
         <div className="h-72 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={trendChartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <defs>
-                <pattern id="handcraftedHatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                  <rect width="6" height="6" fill="#FBF2F1" />
-                  <line x1="0" y1="0" x2="0" y2="6" stroke="#B2463F" strokeWidth="2.5" />
-                </pattern>
-              </defs>
-              <CartesianGrid strokeDasharray={themeMode === 'handcrafted' ? "3 3" : "2 2"} stroke={themeMode === 'handcrafted' ? "#EFECE4" : "#F1F5F9"} vertical={false} />
+              <CartesianGrid strokeDasharray="2 2" stroke="#F1F5F9" vertical={false} />
               <XAxis dataKey="date" stroke="#94A3B8" fontSize={11} tickLine={false} />
               <YAxis stroke="#94A3B8" fontSize={11} tickLine={false} tickFormatter={(v) => `${Math.round(v / 1000)}k`} />
               <Tooltip
@@ -550,15 +532,15 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                   const isAnom = data?.hasAnomaly;
 
                   return (
-                    <div className="bg-[#0F2744] text-white p-3 rounded-md shadow-md text-xs space-y-1.5 border border-[#1E3A5F]">
-                      <div className="flex items-center justify-between gap-3 border-b border-[#1E3A5F] pb-1 font-mono text-[11px]">
+                    <div className="bg-[#0F172A] text-white p-3 rounded-md shadow-md text-xs space-y-1.5 border border-[#1E293B]">
+                      <div className="flex items-center justify-between gap-3 border-b border-[#1E293B] pb-1 font-mono text-[11px]">
                         <span className="text-[#94A3B8]">{label}</span>
                         {isAnom ? (
-                          <span className="px-1.5 py-0.2 rounded bg-[#B54747] text-white text-[10px] font-medium">
+                          <span className="px-1.5 py-0.2 rounded bg-[#DC2626] text-white text-[10px] font-medium">
                             Anomaly Flagged
                           </span>
                         ) : (
-                          <span className="text-[#63C79A] text-[10px]">Normal Flow</span>
+                          <span className="text-[#10B981] text-[10px]">Normal Flow</span>
                         )}
                       </div>
                       <div className="space-y-1 pt-0.5 text-[11px] font-mono tabular-nums">
@@ -571,7 +553,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                           <span>{Math.round(expectedVal).toLocaleString()} L</span>
                         </div>
                         {isAnom && (data?.excess > 0 || actualVal > expectedVal) && (
-                          <div className="flex items-center justify-between gap-4 text-[#EDBEBE] border-t border-[#1E3A5F] pt-1 font-semibold">
+                          <div className="flex items-center justify-between gap-4 text-[#FCA5A5] border-t border-[#1E293B] pt-1 font-semibold">
                             <span>Excess Flow:</span>
                             <span>+{Math.round(Math.max(0, actualVal - expectedVal)).toLocaleString()} L</span>
                           </div>
@@ -582,36 +564,36 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                 }}
               />
               <Area
-                type={themeMode === 'handcrafted' ? 'linear' : 'monotone'}
+                type="monotone"
                 dataKey="expected"
                 stroke="#94A3B8"
                 strokeWidth={1.5}
                 strokeDasharray="3 3"
-                fill={themeMode === 'handcrafted' ? "#F4F2EC" : "#F8FAFC"}
-                fillOpacity={0.5}
+                fill="#F8FAFC"
+                fillOpacity={0.6}
                 name="Expected Baseline"
               />
               <Area
-                type={themeMode === 'handcrafted' ? 'linear' : 'monotone'}
+                type="monotone"
                 dataKey="actual"
-                stroke={themeMode === 'handcrafted' ? "#2C5B83" : "#2563EB"}
+                stroke="#2563EB"
                 strokeWidth={2}
-                fill={themeMode === 'handcrafted' ? "#F0F4F8" : "#EFF6FF"}
-                fillOpacity={0.6}
+                fill="#EFF6FF"
+                fillOpacity={0.4}
                 dot={renderAnomalyDot}
                 name="Actual Consumption"
               />
               <Bar
                 dataKey="anomalyFlow"
-                fill={themeMode === 'handcrafted' ? "url(#handcraftedHatch)" : "#B54747"}
-                stroke={themeMode === 'handcrafted' ? "#B2463F" : "none"}
-                strokeWidth={themeMode === 'handcrafted' ? 1 : 0}
+                fill="#DC2626"
+                stroke="#B91C1C"
+                strokeWidth={0.5}
                 name="Anomaly Event"
-                maxBarSize={15}
-                radius={[3, 3, 0, 0]}
-                opacity={0.9}
+                maxBarSize={12}
+                radius={[2, 2, 0, 0]}
+                opacity={0.85}
               />
-              <Scatter dataKey="anomalyFlow" fill={themeMode === 'handcrafted' ? "#B2463F" : "#B54747"} shape="circle" name="Flagged Point" />
+              <Scatter dataKey="anomalyFlow" fill="#DC2626" shape="circle" name="Flagged Point" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>
@@ -619,41 +601,41 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
         {/* Legend */}
         <div className="flex items-center justify-center gap-6 mt-3 pt-3 border-t border-[#F1F5F9] text-xs">
           <span className="flex items-center gap-2 text-[#0F172A] font-medium">
-            <span className={`w-3 h-1 rounded-full ${themeMode === 'handcrafted' ? 'bg-[#2C5B83]' : 'bg-[#2563EB]'}`} />
+            <span className="w-3 h-1 rounded-full bg-[#2563EB]" />
             Actual Flow
           </span>
           <span className="flex items-center gap-2 text-[#64748B]">
             <span className="w-3 h-0.5 bg-[#94A3B8] border-b border-dashed" />
             Baseline Expected
           </span>
-          <span className="flex items-center gap-2 text-[#B2463F] font-medium">
-            <span className={`w-3.5 h-3 rounded-xs border border-[#B2463F] ${themeMode === 'handcrafted' ? 'handcrafted-hatch' : 'bg-[#B54747]'}`} />
+          <span className="flex items-center gap-2 text-[#DC2626] font-medium">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#DC2626]" />
             Flagged Anomaly Event
           </span>
         </div>
       </div>
 
-      {/* 5. Prioritisation Table (With search, filter, and intuitive row reasons) */}
-      <div id="prioritisation-table" className="bg-white rounded-md border border-[#E2E8F0] overflow-hidden">
+      {/* 5. Priority Leak & Inspection List */}
+      <div id="prioritisation-table" className="bg-white rounded-lg border border-[#E2E8F0] overflow-hidden shadow-xs">
         {/* Table Toolbar */}
         <div className="p-4 border-b border-[#E2E8F0] flex flex-wrap items-center justify-between gap-3 bg-[#F8FAFC]">
           <div className="flex items-center gap-3">
-            <h2 className="text-base font-semibold text-[#0F172A]">
-              Prioritisation
+            <h2 className="text-sm font-semibold text-[#0F172A]">
+              Priority Leak & Inspection Queue
             </h2>
             {/* View Tabs */}
-            <div className="flex items-center bg-white p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
+            <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
               <button
                 onClick={() => setFacilityTab('urgent')}
                 className={`px-3 py-1 rounded transition-colors cursor-pointer flex items-center gap-1.5 ${
                   facilityTab === 'urgent'
-                    ? 'bg-[#0F2744] text-white font-medium shadow-2xs'
+                    ? 'bg-white text-[#0F172A] font-semibold shadow-xs'
                     : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
-                <span>Action Required</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                  facilityTab === 'urgent' ? 'bg-[#1E3A5F] text-white' : 'bg-[#F1F5F9] text-[#64748B]'
+                <span>Needs Attention</span>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                  facilityTab === 'urgent' ? 'bg-[#DC2626] text-white' : 'bg-[#E2E8F0] text-[#64748B]'
                 }`}>
                   {buildingsNeedingAttention.length}
                 </span>
@@ -662,13 +644,13 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                 onClick={() => setFacilityTab('all')}
                 className={`px-3 py-1 rounded transition-colors cursor-pointer flex items-center gap-1.5 ${
                   facilityTab === 'all'
-                    ? 'bg-[#0F2744] text-white font-medium shadow-2xs'
+                    ? 'bg-white text-[#0F172A] font-semibold shadow-xs'
                     : 'text-[#64748B] hover:text-[#0F172A]'
                 }`}
               >
-                <span>All Facilities</span>
-                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono ${
-                  facilityTab === 'all' ? 'bg-[#1E3A5F] text-white' : 'bg-[#F1F5F9] text-[#64748B]'
+                <span>All Buildings</span>
+                <span className={`px-1.5 py-0.2 rounded-full text-[10px] font-mono font-bold ${
+                  facilityTab === 'all' ? 'bg-[#0F172A] text-white' : 'bg-[#E2E8F0] text-[#64748B]'
                 }`}>
                   {allFacilitiesSorted.length}
                 </span>
@@ -738,7 +720,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                     : 'Monitored usage profile';
 
                   return (
-                    <tr key={b.id} className="hover:bg-[#F8FAFC]/80 transition-colors">
+                    <tr key={b.id} className="hover:bg-[#F8FAFC] transition-colors">
                       {/* Facility details + reason */}
                       <td className="py-3">
                         <div className="max-w-md">
@@ -747,7 +729,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                               setSelectedBuildingId(b.id);
                               setCurrentPage('buildings');
                             }}
-                            className="font-medium text-[#0F172A] hover:text-[#2563EB] text-left cursor-pointer transition-colors block text-sm"
+                            className="font-semibold text-[#0F172A] hover:text-[#2563EB] text-left cursor-pointer transition-colors block text-sm"
                           >
                             {b.name}
                           </button>
@@ -768,10 +750,10 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                           <span
                             className={`font-mono tabular-nums text-xs font-semibold ${
                               b.priorityScore >= 80
-                                ? 'text-[#B54747]'
+                                ? 'text-[#DC2626]'
                                 : b.priorityScore >= 60
-                                ? 'text-[#B9822B]'
-                                : 'text-[#2D6A4F]'
+                                ? 'text-[#D97706]'
+                                : 'text-[#059669]'
                             }`}
                           >
                             {b.priorityScore}
@@ -780,10 +762,10 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                             <div
                               className={`h-full ${
                                 b.priorityScore >= 80
-                                  ? 'bg-[#B54747]'
+                                  ? 'bg-[#DC2626]'
                                   : b.priorityScore >= 60
-                                  ? 'bg-[#B9822B]'
-                                  : 'bg-[#2D6A4F]'
+                                  ? 'bg-[#D97706]'
+                                  : 'bg-[#059669]'
                               }`}
                               style={{ width: `${b.priorityScore}%` }}
                             />
@@ -796,9 +778,9 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                         <span
                           className={`px-2 py-0.5 rounded text-[11px] font-mono border ${
                             b.anomalyStatus === 'Suspected Leak'
-                              ? 'bg-[#FBECEC] text-[#B54747] border-[#EDBEBE]'
+                              ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA]'
                               : b.anomalyStatus === 'High Flow'
-                              ? 'bg-[#FAF3E7] text-[#B9822B] border-[#ECD9B7]'
+                              ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
                               : b.anomalyStatus === 'Under Inspection'
                               ? 'bg-[#EFF6FF] text-[#2563EB] border-[#BFDBFE]'
                               : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
@@ -811,11 +793,11 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                       {/* Excess Demand */}
                       <td className="font-mono tabular-nums text-xs">
                         {excess24h > 0 ? (
-                          <span className="text-[#B9822B] font-medium">
+                          <span className="text-[#D97706] font-medium">
                             +{Math.round(excess24h).toLocaleString()} L/day
                           </span>
                         ) : bActiveAlert && bActiveAlert.estimatedExcessLitres > 0 ? (
-                          <span className="text-[#B9822B] font-medium">
+                          <span className="text-[#D97706] font-medium">
                             +{Math.round(bActiveAlert.estimatedExcessLitres).toLocaleString()} L/day{' '}
                             <span className="text-[10px] text-[#64748B] font-sans font-normal">
                               ({bActiveAlert.rule === 'SPIKE' ? 'Spike' : 'Overnight'})
@@ -854,7 +836,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
                               setSelectedBuildingId(b.id);
                               onOpenCreateInspection(b.id, bActiveAlert?.id);
                             }}
-                            className="px-3 py-1 bg-[#0F2744] hover:bg-[#1E3A5F] text-white text-xs font-medium rounded border border-[#0F2744] transition-colors cursor-pointer shadow-2xs"
+                            className="px-3 py-1 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-medium rounded border border-[#0F172A] transition-colors cursor-pointer shadow-2xs"
                           >
                             Dispatch
                           </button>
@@ -873,7 +855,7 @@ export const OverviewPage: React.FC<OverviewPageProps> = ({ onOpenCreateInspecti
           <span>Displaying {displayedFacilities.length} facilities</span>
           <button
             onClick={() => setCurrentPage('buildings')}
-            className="text-[#2563EB] hover:text-[#0F2744] font-medium flex items-center gap-1 cursor-pointer"
+            className="text-[#2563EB] hover:text-[#0F172A] font-medium flex items-center gap-1 cursor-pointer"
           >
             <span>View all facilities in directory</span>
             <ChevronRight className="w-3.5 h-3.5" />

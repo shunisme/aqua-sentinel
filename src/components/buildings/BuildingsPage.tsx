@@ -98,13 +98,13 @@ export const BuildingsPage: React.FC<BuildingsPageProps> = ({ onOpenCreateInspec
   return (
     <div className="space-y-6 w-full">
       {/* Page Header */}
-      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h1 className="text-xl sm:text-2xl font-semibold text-[#0F172A] tracking-tight">
+          <h1 className="text-xl font-semibold text-[#0F172A] tracking-tight">
             Campus Facilities Directory
           </h1>
-          <p className="text-xs text-[#64748B] mt-1">
-            Registry of metered university facilities, baseline thresholds, and inspection statuses.
+          <p className="text-xs text-[#64748B] mt-0.5">
+            Overview of university buildings, water meter IDs, and live inspection statuses.
           </p>
         </div>
 
@@ -113,10 +113,10 @@ export const BuildingsPage: React.FC<BuildingsPageProps> = ({ onOpenCreateInspec
             setBuildingToEdit(null);
             setIsRegisterOpen(true);
           }}
-          className="flex items-center gap-1.5 px-3.5 py-2 bg-[#0F2744] hover:bg-[#1E3A5F] text-white rounded-md text-xs font-medium transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0F172A] hover:bg-[#1E293B] text-white rounded text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
         >
           <PlusCircle className="w-3.5 h-3.5" />
-          <span>+ Register Facility</span>
+          <span>Register Facility</span>
         </button>
       </div>
 

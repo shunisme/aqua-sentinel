@@ -227,8 +227,28 @@ export const WaterMonitoringPage: React.FC = () => {
 
   return (
     <div className="space-y-6">
+      {/* Page Header */}
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h1 className="text-xl font-semibold text-[#0F172A] tracking-tight">
+            Water Telemetry & Monitoring
+          </h1>
+          <p className="text-xs text-[#64748B] mt-0.5">
+            Hourly water consumption curves, expected normal baselines, and excess water analysis.
+          </p>
+        </div>
+
+        <button
+          onClick={handleExportCSV}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-white hover:bg-[#F8FAFC] text-[#0F172A] border border-[#CBD5E1] rounded text-xs font-semibold transition-colors cursor-pointer shadow-2xs"
+        >
+          <Download className="w-3.5 h-3.5 text-[#2563EB]" />
+          <span>Export CSV</span>
+        </button>
+      </div>
+
       {/* Filters Bar */}
-      <div className="bg-white p-3.5 rounded-md border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-3">
+      <div className="bg-white p-3.5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap items-center gap-2.5">
           {/* Facility Selector */}
           {isResident ? (
@@ -367,14 +387,14 @@ export const WaterMonitoringPage: React.FC = () => {
           <div className="mt-2 flex items-baseline gap-1">
             <span
               className={`text-2xl font-mono tabular-nums font-semibold ${
-                totalExcess > 0 ? 'text-[#B9822B]' : 'text-[#2D6A4F]'
+                totalExcess > 0 ? 'text-[#D97706]' : 'text-[#059669]'
               }`}
             >
               {totalExcess > 0 ? `+${Math.round(totalExcess).toLocaleString()}` : '0'}
             </span>
             <span className="text-xs text-[#64748B] font-mono">{unitLabel}</span>
           </div>
-          <div className="mt-3 pt-2.5 border-t border-[#F1F5F9] text-[11px] text-[#B9822B] font-mono">
+          <div className="mt-3 pt-2.5 border-t border-[#F1F5F9] text-[11px] text-[#D97706] font-mono">
             ≈ RM {(((unit === 'm3' ? totalExcess : totalExcess / 1000) * settings.waterTariffRMPerM3)).toFixed(2)} cost loss
           </div>
         </div>
@@ -382,13 +402,13 @@ export const WaterMonitoringPage: React.FC = () => {
         <div className="bg-white p-4 rounded-md border border-[#E2E8F0]">
           <span className="text-xs text-[#64748B] font-medium block">Flagged Anomaly Points</span>
           <div className="mt-2 flex items-baseline gap-1">
-            <span className="text-2xl font-mono tabular-nums font-semibold text-[#B54747]">
+            <span className="text-2xl font-mono tabular-nums font-semibold text-[#DC2626]">
               {anomalousPointsCount}
             </span>
             <span className="text-xs text-[#64748B]">hours</span>
           </div>
           <div className="mt-3 pt-2.5 border-t border-[#F1F5F9] flex items-center justify-between text-[11px] font-mono">
-            <span className="text-[#B54747]">
+            <span className="text-[#DC2626]">
               {anomalousPointsCount > 0 ? 'Threshold Violation' : 'Nominal'}
             </span>
             <span className="text-[#64748B]">
@@ -402,26 +422,24 @@ export const WaterMonitoringPage: React.FC = () => {
       <div className="bg-white p-5 rounded-md border border-[#E2E8F0]">
         <div className="flex flex-wrap items-center justify-between mb-4 gap-2">
           <div>
-            <h2 className="text-base font-semibold text-[#0F172A]">
+            <h2 className="text-sm font-semibold text-[#0F172A]">
               Continuous Flow & Baseline Telemetry
             </h2>
             <p className="text-xs text-[#64748B] mt-0.5">
-              Meter telemetry plotted against diurnal baseline. Anomalies highlighted in red.
+              Meter telemetry plotted against diurnal baseline. Anomalies highlighted in crimson.
             </p>
           </div>
           <div className="flex items-center gap-3 text-xs">
             <span className="flex items-center gap-1.5 text-[#0F172A] font-medium">
-              <span className="w-2.5 h-2.5 rounded-sm bg-[#2563EB]" />
+              <span className="w-2.5 h-1 rounded-full bg-[#2563EB]" />
               Actual Metered Flow
             </span>
             <span className="flex items-center gap-1.5 text-[#64748B]">
-              <span className="w-2.5 h-0.5 bg-[#94A3B8]" />
+              <span className="w-2.5 h-0.5 bg-[#94A3B8] border-b border-dashed" />
               Expected Baseline
             </span>
-            <span className={`flex items-center gap-1.5 font-medium px-1.5 py-0.2 rounded border ${
-              themeMode === 'handcrafted' ? 'text-[#B2463F] bg-[#FBF2F1] border-[#F2D2CF]' : 'text-[#B54747] bg-[#FBECEC] border-[#EDBEBE]'
-            }`}>
-              <span className={`w-2.5 h-2.5 rounded-xs ${themeMode === 'handcrafted' ? 'handcrafted-hatch border border-[#B2463F]' : 'bg-[#B54747]'}`} />
+            <span className="flex items-center gap-1.5 text-[#DC2626] font-medium">
+              <span className="w-2 h-2 rounded-full bg-[#DC2626]" />
               Anomaly Point
             </span>
           </div>
@@ -430,13 +448,7 @@ export const WaterMonitoringPage: React.FC = () => {
         <div className="h-80 w-full">
           <ResponsiveContainer width="100%" height="100%">
             <ComposedChart data={chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-              <defs>
-                <pattern id="handcraftedHatchMon" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
-                  <rect width="6" height="6" fill="#FBF2F1" />
-                  <line x1="0" y1="0" x2="0" y2="6" stroke="#B2463F" strokeWidth="2.5" />
-                </pattern>
-              </defs>
-              <CartesianGrid strokeDasharray={themeMode === 'handcrafted' ? "3 3" : "2 2"} stroke={themeMode === 'handcrafted' ? "#EFECE4" : "#F1F5F9"} />
+              <CartesianGrid strokeDasharray="2 2" stroke="#F1F5F9" vertical={false} />
               <XAxis dataKey="time" stroke="#94A3B8" fontSize={10} tickLine={false} />
               <YAxis stroke="#94A3B8" fontSize={10} tickLine={false} tickFormatter={(v) => `${Math.round(v)}`} />
               <Tooltip
@@ -445,8 +457,8 @@ export const WaterMonitoringPage: React.FC = () => {
                   name || 'Flow',
                 ]}
                 contentStyle={{
-                  backgroundColor: themeMode === 'handcrafted' ? '#1A2838' : '#0F2744',
-                  border: themeMode === 'handcrafted' ? '1px solid #2C3E52' : '1px solid #1E3A5F',
+                  backgroundColor: '#0F172A',
+                  border: '1px solid #1E293B',
                   borderRadius: '6px',
                   color: '#FFFFFF',
                   fontSize: '11px',
@@ -454,34 +466,35 @@ export const WaterMonitoringPage: React.FC = () => {
                 }}
               />
               <Area
-                type={themeMode === 'handcrafted' ? 'linear' : 'monotone'}
+                type="monotone"
                 dataKey="expected"
                 stroke="#94A3B8"
                 strokeWidth={1.5}
                 strokeDasharray="3 3"
-                fill={themeMode === 'handcrafted' ? "#F4F2EC" : "#F8FAFC"}
-                fillOpacity={0.4}
+                fill="#F8FAFC"
+                fillOpacity={0.5}
                 name="Expected Baseline"
               />
               <Area
-                type={themeMode === 'handcrafted' ? 'linear' : 'monotone'}
+                type="monotone"
                 dataKey="actual"
-                stroke={themeMode === 'handcrafted' ? "#2C5B83" : "#2563EB"}
+                stroke="#2563EB"
                 strokeWidth={2}
-                fill={themeMode === 'handcrafted' ? "#F0F4F8" : "#EFF6FF"}
-                fillOpacity={0.6}
+                fill="#EFF6FF"
+                fillOpacity={0.4}
                 name="Actual Flow"
               />
               <Bar
                 dataKey="anomalyFlow"
-                fill={themeMode === 'handcrafted' ? "url(#handcraftedHatchMon)" : "#B54747"}
-                stroke={themeMode === 'handcrafted' ? "#B2463F" : "none"}
-                strokeWidth={themeMode === 'handcrafted' ? 1 : 0}
+                fill="#DC2626"
+                stroke="#B91C1C"
+                strokeWidth={0.5}
                 name="Anomaly Event"
-                maxBarSize={14}
-                radius={[3, 3, 0, 0]}
+                maxBarSize={12}
+                radius={[2, 2, 0, 0]}
+                opacity={0.85}
               />
-              <Scatter dataKey="anomalyFlow" fill={themeMode === 'handcrafted' ? "#B2463F" : "#B54747"} shape="circle" name="Flagged Reading" />
+              <Scatter dataKey="anomalyFlow" fill="#DC2626" shape="circle" name="Flagged Reading" />
             </ComposedChart>
           </ResponsiveContainer>
         </div>

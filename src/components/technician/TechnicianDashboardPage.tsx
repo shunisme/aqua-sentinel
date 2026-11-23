@@ -55,16 +55,19 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
   return (
     <div className="space-y-6 w-full">
       {/* Page Header */}
-      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-4">
+      <div className="bg-white p-5 rounded-lg border border-[#E2E8F0] shadow-2xs flex flex-wrap items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-semibold text-[#0F172A] tracking-tight">
+            <h1 className="text-xl font-semibold text-[#0F172A] tracking-tight">
               Repair Worker Hub
             </h1>
             <span className="text-[11px] font-mono px-2 py-0.5 rounded bg-[#EFF6FF] text-[#2563EB] border border-[#BFDBFE] font-medium">
-              FIELD WORK ORDERS
+              WORK ORDERS
             </span>
           </div>
+          <p className="text-xs text-[#64748B] mt-0.5">
+            View your assigned plumbing jobs, record diagnostic findings, and log completed pipe repairs.
+          </p>
         </div>
 
         {/* 3 Metric Tiles */}
@@ -75,37 +78,37 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
           </div>
           <div className="bg-[#F8FAFC] px-3.5 py-2 rounded-md border border-[#E2E8F0] text-center min-w-[90px]">
             <span className="text-[10px] text-[#64748B] uppercase font-medium block">Critical Tier</span>
-            <span className="text-lg font-mono font-semibold text-[#B54747] tabular-nums">{urgentCount}</span>
+            <span className="text-lg font-mono font-semibold text-[#DC2626] tabular-nums">{urgentCount}</span>
           </div>
           <div className="bg-[#F8FAFC] px-3.5 py-2 rounded-md border border-[#E2E8F0] text-center min-w-[90px]">
             <span className="text-[10px] text-[#64748B] uppercase font-medium block">Completed</span>
-            <span className="text-lg font-mono font-semibold text-[#2D6A4F] tabular-nums">{completedCount}</span>
+            <span className="text-lg font-mono font-semibold text-[#059669] tabular-nums">{completedCount}</span>
           </div>
         </div>
       </div>
 
       {/* Tabs & Filter Bar */}
       <div className="bg-white p-3 rounded-lg border border-[#E2E8F0] flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center bg-[#F1F5F9] p-0.5 rounded-md text-xs font-medium border border-[#E2E8F0]">
           <button
             onClick={() => setActiveTab('my_jobs')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
               activeTab === 'my_jobs'
-                ? 'bg-[#0F2744] text-white'
-                : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                : 'text-[#64748B] hover:text-[#0F172A]'
             }`}
           >
-            Jobs
+            My Assigned Jobs
           </button>
           <button
             onClick={() => setActiveTab('all_jobs')}
-            className={`px-3 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
+            className={`px-3 py-1.5 rounded transition-colors cursor-pointer ${
               activeTab === 'all_jobs'
-                ? 'bg-[#0F2744] text-white'
-                : 'text-[#64748B] hover:text-[#0F172A] hover:bg-[#F8FAFC]'
+                ? 'bg-white text-[#0F172A] shadow-xs font-semibold'
+                : 'text-[#64748B] hover:text-[#0F172A]'
             }`}
           >
-            All tickets
+            All Work Orders
           </button>
         </div>
 
@@ -114,7 +117,7 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="text-xs bg-white px-2.5 py-1.5 rounded-md font-medium text-[#0F172A] border border-[#E2E8F0] outline-none cursor-pointer focus:border-[#2563EB]"
+            className="text-xs bg-white px-2.5 py-1.5 rounded-md font-medium text-[#0F172A] border border-[#CBD5E1] outline-none cursor-pointer focus:border-[#2563EB]"
           >
             <option value="ALL">All Statuses</option>
             <option value="Assigned">Assigned</option>
@@ -150,10 +153,10 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
                     <span
                       className={`text-[10px] font-mono px-2 py-0.5 rounded font-medium border ${
                         job.priorityTier === 'Critical'
-                          ? 'bg-[#FBECEC] text-[#B54747] border-[#EDBEBE]'
+                          ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA]'
                           : job.priorityTier === 'High'
-                          ? 'bg-[#FAF3E7] text-[#B9822B] border-[#ECD9B7]'
-                          : 'bg-[#EFF6FF] text-[#2D6A4F] border-[#BFDBFE]'
+                          ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
+                          : 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
                       }`}
                     >
                       {job.priorityTier} Priority (Score: {job.priorityScore})
@@ -164,11 +167,11 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
                     <span
                       className={`px-2 py-0.5 rounded text-[11px] font-mono border font-medium ${
                         job.status === 'Verified'
-                          ? 'bg-[#EFF6FF] text-[#2D6A4F] border-[#BFDBFE]'
+                          ? 'bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]'
                           : job.status === 'Inspecting'
-                          ? 'bg-[#FAF3E7] text-[#B9822B] border-[#ECD9B7]'
+                          ? 'bg-[#FFFBEB] text-[#D97706] border-[#FDE68A]'
                           : job.status === 'Repair Required'
-                          ? 'bg-[#FBECEC] text-[#B54747] border-[#EDBEBE]'
+                          ? 'bg-[#FEF2F2] text-[#DC2626] border-[#FECACA]'
                           : 'bg-[#F8FAFC] text-[#64748B] border-[#E2E8F0]'
                       }`}
                     >
@@ -238,7 +241,7 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
                   {job.status === 'Assigned' && (
                     <button
                       onClick={() => updateInspectionStatus(job.id, 'Inspecting')}
-                      className="px-3.5 py-1.5 bg-[#0F2744] hover:bg-[#1E3A5F] text-white text-xs font-medium rounded-md transition-colors cursor-pointer"
+                      className="px-3.5 py-1.5 bg-[#0F172A] hover:bg-[#1E293B] text-white text-xs font-medium rounded transition-colors cursor-pointer shadow-2xs"
                     >
                       Start On-Site Inspection
                     </button>
@@ -248,34 +251,34 @@ export const TechnicianDashboardPage: React.FC<TechnicianDashboardPageProps> = (
                     <>
                       <button
                         onClick={() => setSelectedInspectionForFindings(job)}
-                        className="px-3 py-1.5 bg-white hover:bg-[#F8FAFC] text-[#0F172A] border border-[#CBD5E1] text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center gap-1.5"
+                        className="px-3 py-1.5 bg-white hover:bg-[#F8FAFC] text-[#0F172A] border border-[#CBD5E1] text-xs font-medium rounded transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                       >
                         <FileText className="w-3.5 h-3.5 text-[#2563EB]" />
-                        <span>Update Problem / Notes</span>
+                        <span>Update Diagnostic Notes</span>
                       </button>
 
                       <button
                         onClick={() => updateInspectionStatus(job.id, 'Repair Required', 'Escalated: Specialized parts or contractor required')}
-                        className="px-3 py-1.5 bg-white hover:bg-[#F8FAFC] text-[#B54747] border border-[#FECACA] text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center gap-1.5"
+                        className="px-3 py-1.5 bg-white hover:bg-[#FEF2F2] text-[#DC2626] border border-[#FECACA] text-xs font-medium rounded transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                       >
                         <XCircle className="w-3.5 h-3.5" />
-                        <span>Mark as Unresolved / Escalated</span>
+                        <span>Escalate to Contractor</span>
                       </button>
 
                       <button
                         onClick={() => setSelectedInspectionForRepair(job)}
-                        className="px-4 py-1.5 bg-[#16A34A] hover:bg-[#15803D] text-white text-xs font-medium rounded-md transition-colors cursor-pointer flex items-center gap-1.5 shadow-sm"
+                        className="px-3.5 py-1.5 bg-[#059669] hover:bg-[#047857] text-white text-xs font-medium rounded transition-colors cursor-pointer flex items-center gap-1.5 shadow-2xs"
                       >
                         <CheckSquare className="w-3.5 h-3.5" />
-                        <span>Mark as Solved & Report to Admin</span>
+                        <span>Mark Solved & Report</span>
                       </button>
                     </>
                   )}
 
                   {job.status === 'Verified' && (
-                    <span className="text-xs font-medium text-[#2D6A4F] flex items-center gap-1.5 font-mono py-1">
-                      <CheckCircle2 className="w-4 h-4 text-[#16A34A]" />
-                      <span>Completed & Reported to Admin</span>
+                    <span className="text-xs font-medium text-[#059669] flex items-center gap-1.5 font-mono py-1">
+                      <CheckCircle2 className="w-4 h-4 text-[#059669]" />
+                      <span>Completed & Verified</span>
                     </span>
                   )}
                 </div>
